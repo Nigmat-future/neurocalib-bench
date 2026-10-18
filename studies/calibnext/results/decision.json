@@ -1,6 +1,6 @@
 {
-  "passed": false,
-  "reason": "No additional candidate met the margin and harm rule on reused development days",
+  "passed": true,
+  "reason": "Cumulative development gate passed",
   "winner": {
     "mode": "custom",
     "alpha": 0.01,
@@ -8,13 +8,13 @@
     "components": 8,
     "geometry": "identity",
     "bias_penalty": 1.0,
-    "method": "shared_gain"
+    "method": "covered_gain"
   },
-  "score": 0.3695165217122956,
-  "delta": 0.019407059866597742,
-  "negative_days": 2,
+  "score": 0.38321606390802,
+  "delta": 0.03310660206232213,
+  "negative_days": 1,
   "inherited_configurations": 32,
   "inherited_candidates": 8,
   "previous_continuation_attempts": 38,
-  "additional_attempts": 25
+  "additional_attempts": 26
 }
