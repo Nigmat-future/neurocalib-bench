@@ -3,4 +3,5 @@
 results/** -text whitespace=cr-at-eol
 studies/calib15/results/** -text whitespace=cr-at-eol
 studies/calib15-rangecheck/results/** -text whitespace=cr-at-eol
+studies/calibnext/results/** -text whitespace=cr-at-eol
 *.png binary
