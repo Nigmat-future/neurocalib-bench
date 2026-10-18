@@ -2,14 +2,66 @@
 
 This continues the failed [PCA/affine study](../calib15/README.md) on the same nine
 Indy development dates, fixed source features, strongest supervised baseline,
-and 15-second labeled prefix. **A candidate has now passed the development gate;
-two-animal final validation is pending.** At selection, none of the twelve final
-recordings had been accessed. The original six-day pilot is a separate,
-already completed experiment with its own published final results.
+and 15-second labeled prefix. **The frozen candidate failed the prespecified
+two-animal final criterion.** Its development improvement did not transfer to
+both animals. The candidate and protocol are retained; selection and tuning
+have ended. The original six-day pilot is a separate, already completed
+experiment with its own published final results.
 
-The current version permits new calibration algorithms in separately hashed
-single-file methods while keeping evaluation, labels, scoring, and the gate
-fixed. This is repeated development selection, not independent validation.
+This version introduced calibration algorithms as separately hashed single-file
+methods while keeping evaluation, labels, scoring, and the gate fixed. Its
+development selection repeatedly reused the same dates; the final comparison
+was evaluated only after the selection was frozen.
+
+## Frozen final outcome: failed
+
+The [final report](results/final/report.json) evaluates the frozen candidate and
+three fixed references: the development-selected residual baseline, target-only
+ridge, and frozen source ridge. Four comparisons across twelve final dates and
+budgets 0, 5, 15, and 30 seconds produce **192 rows**. These method/budget cells
+are repeated measurements, not 192 independent test samples.
+
+The primary contrast is the selected candidate minus the strongest supervised
+baseline at **15 seconds**:
+
+| Animal | Final dates | Selected R² | Baseline R² | Difference | Negative-transfer days, selected/baseline |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Indy | 5 | 0.34444792 | 0.32411897 | +0.02032895 | 0/0 |
+| Loco | 7 | 0.13288026 | 0.15365121 | -0.02077095 | 0/2 |
+
+The equally weighted animal mean difference was **-0.00022099914909815**.
+The fixed rule required at least **+0.02** and nonnegative improvement in each
+animal, so both gain conditions failed. The negative-transfer-count conditions
+were met. This is a failed final outcome, not evidence that the selected method
+is stronger overall.
+
+Negative transfer means R² below the **same-day frozen source decoder**. It does
+not mean R² below zero, and it is a different comparison from improvement over
+the supervised baseline. A post-hoc audit of the saved scores found that the
+candidate beat the supervised baseline on **4/5 Indy dates and 2/7 Loco dates**.
+The two harmful Loco baseline dates were only 0.0027003 and 0.0049064 R² below
+frozen source ridge; avoiding those small deficits did not offset losses on
+other dates.
+
+At 15 seconds, the coverage fallback was not triggered on any final date:
+all twelve selected scores were strictly above frozen source ridge. Therefore
+the lower negative-transfer count cannot be attributed to the coverage guard.
+These are descriptions of saved scores, not additional predictions or new
+experiments.
+
+Each animal's source decoder was fitted independently on its own labeled
+recordings: **two source dates for Indy and three for Loco**. The method and
+hyperparameters selected on Indy were then applied using each animal's own
+source fit and the permitted target prefix. This tests transfer of calibration
+choices; it is not zero-shot transfer of a fitted decoder between animals.
+
+The [freeze](results/frozen.json) preceded final access. The
+[download provenance](results/download_provenance.json) records the official
+files, pinned sizes, and verified MD5 checksums. A fresh checkout of `72fc834`
+reproduced all four comparisons and 192 daily/budget rows to `1e-7`:
+[`matches_original: true`](results/reproduced/report.json),
+[checkout provenance](results/reproduced/final_checkout.json).
+Numerical reproduction does not change `outcome.passed: false`.
 
 ## Completed development evidence
 
@@ -25,7 +77,7 @@ the frozen source decoder.
 | Source-anchored encoding | 12 | 0.311715 | Gate failed |
 | Task-residual continuation | 9 | 0.350887 | Gate failed |
 | Shared-channel reweighting | 16 | 0.369517 | Gate failed; 2 harmful days |
-| Coverage-guarded reweighting | 1 executed of 2 declared | 0.383216 | Development gate passed |
+| Coverage-guarded reweighting | 1 executed of 2 declared | 0.383216 | Development passed; final failed |
 
 The [initial MAP evidence](../calibnext-map-initial/results/decision.json) is
 preserved with its exact source at commit
@@ -134,66 +186,74 @@ slope-only corrections both underperformed the full residual reference. These
 observations motivate further tests without establishing a causal explanation
 for failure.
 
-Passing development only authorizes a frozen final comparison. At 15 seconds,
-the candidate must have nonnegative mean improvement in each animal, at least
+The prespecified final rule required, at 15 seconds, nonnegative mean improvement
+in each animal, at least
 0.02 improvement when the two animals are averaged equally, and no increase in
 negative-transfer days within either animal. Final comparisons retain the
 development-selected baseline and use separate source models for the animals.
-An unsuccessful final result is retained and cannot trigger retuning.
+The failed final result is retained and cannot trigger retuning.
 
 ## Run and reproduce
 
 From the repository root, Python 3.12 and the existing locked environment are
-required. Development downloads include only Indy source and development files:
+required. The published study is frozen and already has a final report. The
+CLI therefore automatically reproduces its **four frozen final comparisons**:
 
 ```sh
 uv sync --locked
 uv run --no-sync python -m calib15 download
-```
-
-The current streaming evaluator reproduced the inherited baseline at mean R²
-`0.3501094618457011`, with maximum daily R² error `1.64e-14`. The v3 core passed
-129 software tests, lint, formatting, and type checks before these batches.
-Core commit `d4be944` passed [Ubuntu/Windows CI](https://github.com/Nigmat-future/neurocalib-bench/actions/runs/39159176551).
-Software checks do not establish a neuroscience effect.
-
-Search has stopped. Before a final report exists, the following command repeats
-all **26 completed current-version configurations and 234 daily rows**, without
-adding search events:
-
-```sh
 uv run --no-sync python -m calibnext reproduce
 ```
 
-This writes `studies/calibnext/results/reproduced/development.json`. Scientific
-row fields must agree to `1e-7`; elapsed times may
-differ. The recorded sanity evidence is already present. Do not rerun `sanity`
-after trials start: the command rejects overwriting bound evidence.
+The development download contains only Indy source and development files.
+Final replay also needs **14,052,108,936 bytes (14.05 GB)** for twelve final
+recordings and three Loco source recordings, plus the existing development data
+and working space. Raw data are excluded from Git. The replay verifies the
+frozen access marker and input hashes before downloading or loading these files.
+Results are written to `studies/calibnext/results/reproduced/report.json`.
+The published fresh-checkout replay matched all 192 rows to `1e-7`.
+
+The current streaming evaluator reproduced the inherited development baseline
+at mean R² `0.3501094618457011`, with maximum daily error `1.64e-14`.
+All **26 current development configurations and 234 daily rows** reproduced
+from a fresh checkout of `60122c5` to `1e-7`:
+[`matches_original: true`](results/reproduced/development.json),
+[checkout provenance](results/reproduced/checkout.json). That run used its own
+checked-out code and the locked environment.
+
+To repeat those development results after the final report exists, call the
+development-only API explicitly, pinning compute threads before numerical
+libraries are imported:
+
+```sh
+uv run --no-sync python -c "import os
+os.environ.update(OPENBLAS_NUM_THREADS='1', OMP_NUM_THREADS='1', MKL_NUM_THREADS='1')
+from pathlib import Path
+from calibnext.replay import reproduce_development
+print(reproduce_development(Path.cwd()))"
+```
+
+This writes `studies/calibnext/results/reproduced/development.json` without
+adding search events. Scientific fields must agree within `1e-7`; elapsed times
+may differ. `matches_original: true` in replay evidence reports numerical
+agreement; `outcome.passed: false` in the final report records failure of the
+scientific success criterion.
+Reproducing the failure does not turn it into a successful method.
+
+Do not call `sanity`, `batch`, or `freeze` to rerun this published experiment.
+They are lifecycle operations for an unfinished study; the saved selection is
+immutable. No further candidate may be selected or tuned using these final data.
 
 To reproduce either historical continuation, use a separate checkout of its
 source commit listed above. At those commits, the logs occupy their original
 `studies/calibnext` path. Run the same locked setup, development download, and
-`python -m calibnext reproduce` there. Current v3 source deliberately rejects
-using the old ledgers as a new search.
+`python -m calibnext reproduce` there. At those historical commits it dispatches
+to development replay. Current source rejects using those ledgers as new search.
 
-The [freeze](results/frozen.json) was committed and pushed at `60122c5` before
-the final access marker was created. Its 64 scientific input hashes match the
-committed bytes. Local verification passed 142 tests, lint, formatting, and type
-checks; [Ubuntu/Windows CI passed on the frozen source](https://github.com/Nigmat-future/neurocalib-bench/actions/runs/39159842666).
-All 26 current configurations and 234 daily rows now reproduced from a fresh
-checkout of `60122c5` to `1e-7`:
-[`matches_original: true`](results/reproduced/development.json),
-[checkout provenance](results/reproduced/checkout.json). This used the locked
-environment and imported the code inside that checkout. Final downloads are
-running; no final generalization result is available yet. The original-run final
-commands are:
-
-```sh
-uv run --no-sync python -m calibnext final
-uv run --no-sync python -m calibnext reproduce
-```
-
-The final access marker and exact frozen hashes are checked before any final
-recording or Loco source is downloaded or loaded. After a completed final,
-`reproduce` repeats only the frozen final comparisons. Read the
-[protocol](PROTOCOL.md) and [research loop](program.md) for the complete contract.
+The freeze was committed and pushed at `60122c5` before the final access marker.
+Its 64 scientific input hashes match the committed bytes. Local software
+verification passed **142 tests**, lint, formatting, and type checks;
+[Ubuntu/Windows CI passed](https://github.com/Nigmat-future/neurocalib-bench/actions/runs/39160460675).
+These checks and replay results verify software and reproducibility, not the
+neuroscience hypothesis. Read the [protocol](PROTOCOL.md) and
+[research loop](program.md) for the complete contract.

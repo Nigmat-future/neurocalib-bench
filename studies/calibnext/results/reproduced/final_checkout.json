@@ -1,0 +1,17 @@
+{
+  "commit": "72fc834e21f3f4acb93e40776f12293e3372060b",
+  "fresh_git_checkout": true,
+  "execution_working_directory": "D:\\Desktop\\PR\\neurocalib-bench\\.tools\\calibnext-final-verify",
+  "imported_module": "D:\\Desktop\\PR\\neurocalib-bench\\.tools\\calibnext-final-verify\\calibnext\\__init__.py",
+  "reused_locked_environment": true,
+  "data_directory_is_junction": true,
+  "comparisons": 4,
+  "daily_budget_rows": 192,
+  "matches_original": true,
+  "tolerance": 1e-07,
+  "scientific_outcome_passed": false,
+  "frozen_sha256": "7fdc4b56624e6efcbf0b07fbf580d6e1c306c1ce7cdc61b9302e8145c1e80c1d",
+  "frozen_input_count_verified": 64,
+  "original_final_report_sha256": "0c3ddbf7a9c2a6f056bd623abcc29e8c16f00e81fb99261825a1ef49b6e59eff",
+  "reproduction_sha256": "dac3d05102701d2017af0d103b145be14c75f5e66ab6e31349e993705b8de413"
+}

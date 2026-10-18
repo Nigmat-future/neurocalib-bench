@@ -2,17 +2,25 @@
 
 **Cross-day neural decoding under fixed calibration budgets.**
 
-A reproducible benchmark of cross-day intracortical velocity decoding, with an original pilot and an ongoing supervised calibration study. Compare frozen ridge regression, distribution alignment, and supervised readout correction under **0, 5, 15, and 30 seconds** of new-day data.
+A reproducible benchmark of cross-day intracortical velocity decoding, with an original pilot and a frozen supervised calibration study. Compare frozen ridge regression, distribution alignment, and supervised readout correction under **0, 5, 15, and 30 seconds** of new-day data.
 
-The experiments use public recordings and offline decoding. The original pilot reports two final-test days from one animal; the later study reserves twelve different final dates across two animals. The contribution is controlled experiments and inspectable evidence, with development separated from final testing. No new state of the art, clinical validation, or Neuralink replication is claimed.
+The experiments use public recordings and offline decoding. The original pilot reports two final-test days from one animal; the later study reports twelve different final dates across two animals. The contribution is controlled experiments and inspectable evidence, with development separated from final testing. No new state of the art, clinical validation, or Neuralink replication is claimed.
 
 中文概述：固定新日可见数据与校准时间，比较简单适应方法；先冻结协议与配置，再评估保留测试日。保留无收益和负迁移结果。
 
 ## Fifteen-second supervised calibration study
 
+**Final outcome: failed.** At the primary 15-second budget, the frozen candidate
+improved mean R² by **+0.020329 on Indy** but reduced it by **-0.020771 on Loco**.
+The equally weighted animal mean difference was **-0.000221**, below the required
+**+0.02**. Loco also failed the required nonnegative per-animal gain. Inspect the
+[complete final report](studies/calibnext/results/final/report.json) and
+[study interpretation](studies/calibnext/README.md#frozen-final-outcome-failed).
+The candidate is retained; selection and tuning have ended.
+
 The [second study](studies/calib15/README.md) compares 24 tuned supervised baselines
 with agent-proposed calibration models under the same 15-second labeled prefix.
-It has nine new development dates and twelve sealed final dates across two animals.
+It reserved nine new development dates and twelve final dates across two animals.
 A +0.02 development R² gain and no additional negative-transfer days are required
 before final access. The study documents a pre-candidate regularization-range
 amendment and preserves its [initial range diagnostic](studies/calib15-rangecheck/README.md).
@@ -25,8 +33,8 @@ All 32 configurations reproduced from a fresh Git checkout to `1e-7`; 61 tests a
 [Ubuntu/Windows CI](https://github.com/Nigmat-future/neurocalib-bench/actions/runs/39146578808)
 passed.
 
-The [continued study](studies/calibnext/README.md) retains the same reference,
-gate, nine development dates, and sealed final dates. Eight MAP attempts reached
+The [continued study](studies/calibnext/README.md) retained the same reference,
+gate, nine development dates, and previously sealed final dates. Eight MAP attempts reached
 at most **0.343804** mean development R². A subsequent 18 SIMPLS attempts reached
 **0.340665**, and 12 source-anchored encoding attempts reached **0.311715**.
 All failed the development gate. The [eight-MAP archive](studies/calibnext-map-initial/README.md)
@@ -50,9 +58,21 @@ have now informed **32 original + 38 archived + 26 current = 96 configurations**
 including one baseline-equivalent control. This is 72 counted candidate
 attempts, including that control, plus **two separately disclosed post-hoc
 diagnostic configurations**. Strength-oracle calculations only reanalyze saved
-results. This repeated development selection is not independent validation.
-At selection, the supervised studies had made **zero final accesses**;
-the frozen two-animal evaluation is the next stage. No final success is claimed.
+results. This repeated development selection was not independent validation:
+the **+0.033107 development gain did not meet the later two-animal final rule**.
+The final comparison contains four fixed methods, twelve dates, and four budgets
+(192 rows). Negative transfer means doing worse than the same-day frozen source
+decoder, not having R² below zero. Lower negative-transfer frequency did not make
+the candidate stronger overall.
+
+Each animal had its own source decoder fitted on its own labeled recordings:
+two source dates for Indy and three for Loco. What transferred across animals was
+the selected method and its hyperparameters, not a zero-shot fitted decoder.
+All 26 current development configurations and all four frozen final comparisons
+reproduced from fresh checkouts to `1e-7`: [final numerical replay](studies/calibnext/results/reproduced/report.json),
+[checkout provenance](studies/calibnext/results/reproduced/final_checkout.json).
+`matches_original: true` means numerical agreement, while `outcome.passed: false`
+records failure of the scientific criterion. These are separate claims.
 
 The original pilot's locked results follow below.
 
@@ -115,16 +135,16 @@ uv run --no-sync python -m unittest discover -s tests -v
 ```
 
 The current continuation implementation passed **142 unittest tests**, lint,
-formatting, and type checks before final access. The core workflow at
-`d4be944` passed [Ubuntu/Windows CI](https://github.com/Nigmat-future/neurocalib-bench/actions/runs/39159176551).
+formatting, and type checks before final access.
+[Ubuntu/Windows CI passed](https://github.com/Nigmat-future/neurocalib-bench/actions/runs/39160460675).
 [Ubuntu and Windows CI also passed
 on the initial pilot implementation](https://github.com/Nigmat-future/neurocalib-bench/actions/runs/39142899064).
 Tests use synthetic HDF5 fixtures and do not download the research recordings.
 Passing those tests establishes software checks, not evidence for the neuroscience
-hypothesis. For the active calibration study and its historical source checkouts,
+hypothesis. For the frozen calibration study and its historical source checkouts,
 use the [continuation reproduction instructions](studies/calibnext/README.md#run-and-reproduce).
 
-Full numerical reproduction passed for all seven frozen comparisons: [`matches: true`](results/reproduced/report.json), with relative and absolute tolerance `1e-7`. A fresh Git checkout also reproduced all seven comparisons, verifying that the committed files preserve the frozen evidence hashes.
+The original pilot's numerical reproduction passed for all seven frozen comparisons: [`matches: true`](results/reproduced/report.json), with relative and absolute tolerance `1e-7`. A fresh Git checkout also reproduced all seven comparisons, verifying that the committed files preserve the frozen evidence hashes.
 
 ## Original pilot comparisons
 
@@ -165,7 +185,7 @@ uv run --no-sync python -m neurocalib freeze
 uv run --no-sync python -m neurocalib final
 ```
 
-This lifecycle is for an **unfrozen research run**, not a command sequence to rerun on the published final experiment. The published checkout is already frozen and refuses further trials. Search allows at most 12 distinct candidates and selects mean development R² over both days at 5, 15, and 30 seconds. Supervised correction is a fixed reference, excluded from search. All eight attempted candidates, including the failed full-strength CORAL hypothesis, remain in the [experiment ledger](results/experiments.jsonl).
+This lifecycle is for an **unfrozen research run**, not a command sequence to rerun on the published final experiment. The published checkout is already frozen and refuses further trials. The original pilot's search allowed at most 12 distinct candidates and selected mean development R² over both days at 5, 15, and 30 seconds. Supervised correction was a fixed reference, excluded from search. All eight attempted pilot candidates, including the failed full-strength CORAL hypothesis, remain in the [experiment ledger](results/experiments.jsonl).
 
 For a new study, create a separate working copy, preserve the original records, and predeclare genuinely untouched test dates. Deleting a freeze and continuing to tune against the same opened test recordings does not create a valid new holdout.
 
@@ -174,6 +194,11 @@ The executable experiment does not host or call an LLM. Raw recordings stay out 
 ## Data and attribution
 
 The original pilot's six selected files total **635,651,025 bytes**. Downloads must match the sizes and MD5 digests in `protocol.json`; the supervised study has its own [recording manifest](studies/calib15/protocol.json).
+
+The continuation's final replay needs **14,052,108,936 bytes (14.05 GB)** of
+additional final/source recordings, plus the existing development data and
+working space. See its [verified download provenance](studies/calibnext/results/download_provenance.json)
+and [reproduction commands](studies/calibnext/README.md#run-and-reproduce).
 
 O'Doherty, J. E., Cardoso, M. M. B., Makin, J. G., and Sabes, P. N. *Nonhuman Primate Reaching with Multichannel Sensorimotor Cortex Electrophysiology*, version 2 (2020). [Dataset and license](https://zenodo.org/records/3854034), DOI [10.5281/zenodo.3854034](https://doi.org/10.5281/zenodo.3854034).
 
@@ -184,7 +209,8 @@ The data and published derived scientific results are **CC BY 4.0**. This reposi
 [FALCON](https://proceedings.neurips.cc/paper_files/paper/2024/hash/8c2e6bb15be1894b8fb4e0f9bcad1739-Abstract-Datasets_and_Benchmarks_Track.html) already studies consistent few-shot neural decoding. [NoMAD](https://www.nature.com/articles/s41467-025-59652-y) and [PRI-T](https://www.nature.com/articles/s41551-025-01536-z) provide substantially broader evidence for unsupervised stabilization and recalibration. This repository asks a narrower budget-controlled question; it does not establish superiority over those methods.
 
 The pilot's published final results cover only two days from one animal; the
-later supervised studies have not accessed their final recordings. Report
+later study reports twelve final dates across two animals and failed its fixed
+success criterion. Report
 day-level results, negative transfer, measured compute costs, and failed
 hypotheses. Do not infer population-level significance from autocorrelated 20 ms
 bins or repeatedly reused development dates.

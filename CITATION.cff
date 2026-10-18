@@ -12,9 +12,11 @@ repository-code: "https://github.com/Nigmat-future/neurocalib-bench"
 url: "https://github.com/Nigmat-future/neurocalib-bench"
 license: MIT
 abstract: >-
-  A reproducible offline pilot comparing simple neural-decoder adaptation
-  methods under fixed new-day calibration time budgets. Final-test evaluation
-  is separated from development by a content-hashed local freeze.
+  A reproducible offline benchmark comparing neural-decoder adaptation under
+  fixed new-day calibration time budgets. It preserves an original pilot and
+  a supervised calibration study with repeated development selection, failed
+  hypotheses, and a two-animal final comparison. Final-test evaluation is
+  separated from development by a content-hashed local freeze.
 references:
   - type: data
     title: "Nonhuman Primate Reaching with Multichannel Sensorimotor Cortex Electrophysiology"
