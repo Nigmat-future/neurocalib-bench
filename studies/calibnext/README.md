@@ -180,8 +180,13 @@ The [freeze](results/frozen.json) was committed and pushed at `60122c5` before
 the final access marker was created. Its 64 scientific input hashes match the
 committed bytes. Local verification passed 142 tests, lint, formatting, and type
 checks; [Ubuntu/Windows CI passed on the frozen source](https://github.com/Nigmat-future/neurocalib-bench/actions/runs/39159842666).
-Final downloads and numerical development reproduction are now running. No final
-generalization result is available yet. The original-run final commands are:
+All 26 current configurations and 234 daily rows now reproduced from a fresh
+checkout of `60122c5` to `1e-7`:
+[`matches_original: true`](results/reproduced/development.json),
+[checkout provenance](results/reproduced/checkout.json). This used the locked
+environment and imported the code inside that checkout. Final downloads are
+running; no final generalization result is available yet. The original-run final
+commands are:
 
 ```sh
 uv run --no-sync python -m calibnext final

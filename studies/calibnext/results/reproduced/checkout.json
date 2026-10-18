@@ -1,0 +1,17 @@
+{
+  "commit": "60122c5f6e230362e686a9a18391a4cbf4e304a9",
+  "fresh_git_checkout": true,
+  "execution_working_directory": "D:\\Desktop\\PR\\neurocalib-bench\\.tools\\calibnext-v3-verify",
+  "imported_module": "D:\\Desktop\\PR\\neurocalib-bench\\.tools\\calibnext-v3-verify\\calibnext\\__init__.py",
+  "reused_locked_environment": true,
+  "data_directory_is_junction": true,
+  "configurations": 26,
+  "daily_rows": 234,
+  "matches_original": true,
+  "tolerance": 1e-07,
+  "development_only": true,
+  "final_recordings_loaded_by_replay": false,
+  "ledger_sha256": "0de1eac6c33f7c2732b4a580a13990188b71539ad41ad1ad6de037e6b94c2e7a",
+  "reproduction_sha256": "d2c9f6567e8601e12b29ed26c4d3324d8f2233974fc1d611066e67b4c92e2cd9",
+  "ci_frozen_source": "https://github.com/Nigmat-future/neurocalib-bench/actions/runs/39159842666"
+}

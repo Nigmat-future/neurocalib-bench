@@ -115,7 +115,7 @@ uv run --no-sync python -m unittest discover -s tests -v
 ```
 
 The current continuation implementation passed **142 unittest tests**, lint,
-formatting, and type checks before its new batches. The core workflow at
+formatting, and type checks before final access. The core workflow at
 `d4be944` passed [Ubuntu/Windows CI](https://github.com/Nigmat-future/neurocalib-bench/actions/runs/39159176551).
 [Ubuntu and Windows CI also passed
 on the initial pilot implementation](https://github.com/Nigmat-future/neurocalib-bench/actions/runs/39142899064).
