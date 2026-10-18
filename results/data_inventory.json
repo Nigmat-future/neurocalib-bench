@@ -1,0 +1,168 @@
+{
+  "record_url": "https://zenodo.org/records/3854034",
+  "bin_seconds": 0.02,
+  "test_behavior_policy": "During this inventory audit, test HDF5 files were not opened. Only whole-file checksum and size were verified.",
+  "files": [
+    {
+      "name": "indy_20160930_05.mat",
+      "role": "source",
+      "bytes": 100720287,
+      "md5": "30a8dc9229306d81288e8ae39c9e4942",
+      "checksum_verified": true,
+      "behavior_opened": true,
+      "raw_samples": 101501,
+      "raw_first_seconds": 2346.0,
+      "raw_last_seconds": 2752.0,
+      "duration_seconds": 406.0,
+      "sample_interval_seconds": 0.0039999999999054126,
+      "raw_shapes": {
+        "t": [
+          1,
+          101501
+        ],
+        "cursor_pos": [
+          2,
+          101501
+        ],
+        "spikes": [
+          5,
+          96
+        ],
+        "chan_names": [
+          1,
+          96
+        ]
+      },
+      "bins": 20300,
+      "m1_channels": 96,
+      "first_channel": "M1 001",
+      "last_channel": "M1 096",
+      "finite_velocity_bins": 20300
+    },
+    {
+      "name": "indy_20161005_06.mat",
+      "role": "source",
+      "bytes": 83957398,
+      "md5": "5ea300952642e0fc54245144499db9bb",
+      "checksum_verified": true,
+      "behavior_opened": true,
+      "raw_samples": 93501,
+      "raw_first_seconds": 1288.0,
+      "raw_last_seconds": 1662.0,
+      "duration_seconds": 374.0,
+      "sample_interval_seconds": 0.0039999999999054126,
+      "raw_shapes": {
+        "t": [
+          1,
+          93501
+        ],
+        "cursor_pos": [
+          2,
+          93501
+        ],
+        "spikes": [
+          5,
+          96
+        ],
+        "chan_names": [
+          1,
+          96
+        ]
+      },
+      "bins": 18700,
+      "m1_channels": 96,
+      "first_channel": "M1 001",
+      "last_channel": "M1 096",
+      "finite_velocity_bins": 18700
+    },
+    {
+      "name": "indy_20161006_02.mat",
+      "role": "development",
+      "bytes": 107724602,
+      "md5": "8e19ada5feee4cdef47a0ec66503076f",
+      "checksum_verified": true,
+      "behavior_opened": true,
+      "raw_samples": 125501,
+      "raw_first_seconds": 745.0,
+      "raw_last_seconds": 1247.0,
+      "duration_seconds": 502.0,
+      "sample_interval_seconds": 0.004000000000019099,
+      "raw_shapes": {
+        "t": [
+          1,
+          125501
+        ],
+        "cursor_pos": [
+          2,
+          125501
+        ],
+        "spikes": [
+          5,
+          96
+        ],
+        "chan_names": [
+          1,
+          96
+        ]
+      },
+      "bins": 25100,
+      "m1_channels": 96,
+      "first_channel": "M1 001",
+      "last_channel": "M1 096",
+      "finite_velocity_bins": 25100
+    },
+    {
+      "name": "indy_20161007_02.mat",
+      "role": "development",
+      "bytes": 138726375,
+      "md5": "6426f0fe91a9a90f66cbb17c44e20c0d",
+      "checksum_verified": true,
+      "behavior_opened": true,
+      "raw_samples": 122847,
+      "raw_first_seconds": 258.616,
+      "raw_last_seconds": 750.0,
+      "duration_seconds": 491.384,
+      "sample_interval_seconds": 0.004000000000019099,
+      "raw_shapes": {
+        "t": [
+          1,
+          122847
+        ],
+        "cursor_pos": [
+          2,
+          122847
+        ],
+        "spikes": [
+          5,
+          96
+        ],
+        "chan_names": [
+          1,
+          96
+        ]
+      },
+      "bins": 24569,
+      "m1_channels": 96,
+      "first_channel": "M1 001",
+      "last_channel": "M1 096",
+      "finite_velocity_bins": 24569
+    },
+    {
+      "name": "indy_20161013_03.mat",
+      "role": "test",
+      "bytes": 107002013,
+      "md5": "8f92ff163bc409134af6ebd161dec826",
+      "checksum_verified": true,
+      "behavior_opened": false
+    },
+    {
+      "name": "indy_20161212_02.mat",
+      "role": "test",
+      "bytes": 97520350,
+      "md5": "41f420af06373b456ede45da0536a10f",
+      "checksum_verified": true,
+      "behavior_opened": false
+    }
+  ],
+  "stage": "pre-final-integrity-and-development-audit"
+}

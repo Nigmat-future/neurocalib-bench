@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "Please cite this software and the original dataset when using this work."
+type: software
+title: "neurocalib-bench: Budget-controlled cross-day neural decoding"
+version: 0.1.0
+date-released: 2026-10-18
+authors:
+  - family-names: Rahim
+    given-names: Nigmat
+    alias: Nigmat-future
+repository-code: "https://github.com/Nigmat-future/neurocalib-bench"
+url: "https://github.com/Nigmat-future/neurocalib-bench"
+license: MIT
+abstract: >-
+  A reproducible offline pilot comparing simple neural-decoder adaptation
+  methods under fixed new-day calibration time budgets. Final-test evaluation
+  is separated from development by a content-hashed local freeze.
+references:
+  - type: data
+    title: "Nonhuman Primate Reaching with Multichannel Sensorimotor Cortex Electrophysiology"
+    authors:
+      - family-names: "O'Doherty"
+        given-names: "Joseph E."
+      - family-names: Cardoso
+        given-names: "Mariana M. B."
+      - family-names: Makin
+        given-names: "Joseph G."
+      - family-names: Sabes
+        given-names: "Philip N."
+    doi: 10.5281/zenodo.3854034
+    url: "https://zenodo.org/records/3854034"
+    version: v2
+    year: 2020
+    license: CC-BY-4.0

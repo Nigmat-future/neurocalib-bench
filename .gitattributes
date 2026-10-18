@@ -1,0 +1,4 @@
+* text=auto eol=lf
+# Evidence hashes bind bytes, including the writer's original line endings.
+results/** -text whitespace=cr-at-eol
+*.png binary

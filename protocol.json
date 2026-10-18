@@ -1,0 +1,15 @@
+{
+  "version": "indy-pilot-v1",
+  "record_url": "https://zenodo.org/records/3854034",
+  "bin_seconds": 0.02,
+  "score_start_seconds": 30.5,
+  "budgets_seconds": [0, 5, 15, 30],
+  "files": [
+    {"name": "indy_20160930_05.mat", "role": "source", "size": 100720287, "md5": "30a8dc9229306d81288e8ae39c9e4942"},
+    {"name": "indy_20161005_06.mat", "role": "source", "size": 83957398, "md5": "5ea300952642e0fc54245144499db9bb"},
+    {"name": "indy_20161006_02.mat", "role": "development", "size": 107724602, "md5": "8e19ada5feee4cdef47a0ec66503076f"},
+    {"name": "indy_20161007_02.mat", "role": "development", "size": 138726375, "md5": "6426f0fe91a9a90f66cbb17c44e20c0d"},
+    {"name": "indy_20161013_03.mat", "role": "test", "size": 107002013, "md5": "8f92ff163bc409134af6ebd161dec826"},
+    {"name": "indy_20161212_02.mat", "role": "test", "size": 97520350, "md5": "41f420af06373b456ede45da0536a10f"}
+  ]
+}

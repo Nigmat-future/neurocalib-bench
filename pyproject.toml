@@ -1,0 +1,40 @@
+[project]
+name = "neurocalib-bench"
+version = "0.1.0"
+description = "Reproducible, budget-controlled cross-day neural decoding experiments"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["numpy>=2.2,<3", "h5py>=3.12,<4", "matplotlib>=3.10,<4", "pydantic>=2.10,<3"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14",
+    "basedpyright>=1.30",
+    "h5py-stubs>=0.1.2",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = ["COM812", "D203", "D213", "CPY001", "FBT001", "FBT002", "TD002", "TD003", "FIX002"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*.py" = ["S101", "PLR2004", "D", "SLF001", "ANN", "ARG", "PT009", "PT027"]
+"neurocalib/__main__.py" = ["T201"]
+"neurocalib/cli.py" = ["T201"]
+
+[tool.basedpyright]
+typeCheckingMode = "all"
+pythonVersion = "3.12"
+include = ["neurocalib"]
+reportUnusedCallResult = "warning"
+# Exhaustive match sentinels deliberately remain unreachable.
+reportUnnecessaryComparison = false
+# NumPy reductions and HDF5 references expose library Any; public APIs stay typed.
+reportAny = false
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"

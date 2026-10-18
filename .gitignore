@@ -1,0 +1,11 @@
+.venv/
+.tools/
+__pycache__/
+*.pyc
+.ruff_cache/
+.basedpyright/
+data/
+results/local*/
+results/.active
+results/**/*.tmp
+*.partial

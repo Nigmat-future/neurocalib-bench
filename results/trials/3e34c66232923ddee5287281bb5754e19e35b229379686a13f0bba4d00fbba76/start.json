@@ -1,0 +1,46 @@
+{
+  "sequence": 3,
+  "trial_id": "3e34c66232923ddee5287281bb5754e19e35b229379686a13f0bba4d00fbba76",
+  "strategy": {
+    "mode": "center",
+    "alpha": 1.0,
+    "lags": 10,
+    "strength": 1.0,
+    "covariance_shrinkage": 0.1
+  },
+  "hypothesis": "If cross-day drift is mainly a firing-rate offset, prefix-only mean centering should improve the frozen decoder without behavior labels.",
+  "inputs": {
+    "neurocalib/__init__.py": "49b26aee28c4d01a1794fadab0bfcfd6cf9ab3ae80cd13744b3d5979400a4c96",
+    "neurocalib/__main__.py": "0f3a40944347d5b010f5c8bfbcf408de4a41170206333ca0482acf6a2edd04cc",
+    "neurocalib/cli.py": "ce2e00979ea618792549e9695bea350d4632660e3cb9dc2194d3e72e406f7f83",
+    "neurocalib/core.py": "f8eca66ebf4721e7c35dd2032de90e05642d0da2294def3da79fa10a5f2931dc",
+    "neurocalib/data.py": "99a6ef85a3889a14d9a37109dc5cea223205ee05bf1b9571edf4dd48400bafc7",
+    "neurocalib/evaluation.py": "b30746d7176b3f4034e5413e9c90c83a65d37d8e60e40c8a93c6d93187e74314",
+    "neurocalib/ledger.py": "cdde61a17b9e89f7ce49b21e12778c483fb64cca2bd3c4a8f200c8fc3da4a600",
+    "neurocalib/report.py": "a6dbc5c405a21771518c96846200556ab2810e4891bc9786c393e6ab2474fc77",
+    "neurocalib/reproduce.py": "d263f4b4e75f12507752f5dc9c0a10fd6189210356224a375335108db34d8a0a",
+    "neurocalib/research.py": "8993617157f8e414dc6a2ee1fca70974b262578ba43445329d23113d6050bf0f",
+    "neurocalib/schema.py": "c798757bca1d14d379a985ee1398ca30bf1f031b3d1f4e1e29134931e86d50bd",
+    "protocol.json": "0a3cc5b6200867291468d9e831849f37600768ccf429efa2711b851a639605b2",
+    "PROTOCOL.md": "aa9ae470c8bc719863e363f5d6cc4029e6e547455a629612690aed97bfcd4615",
+    "pyproject.toml": "c93faf564be76e68c342aed2f51ee1358cbf12e899486163f01aef95caeb896d",
+    "uv.lock": "a807f0b72046e99880999bf2647796c1043bac348235cd3bd5d10b88aa338a5f"
+  },
+  "environment": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.22631-SP0",
+    "numpy": "2.5.4",
+    "h5py": "3.16.0",
+    "pydantic": "2.14.1",
+    "randomness": "deterministic closed-form methods; no stochastic trial seed",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "max_trials": 12,
+  "started_at": "2026-10-18T15:47:02.805934+00:00",
+  "status": "running",
+  "score": null,
+  "error": null,
+  "rows": []
+}
