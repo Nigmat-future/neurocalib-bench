@@ -1,0 +1,14 @@
+{
+  "checkout_commit": "d8d87d6cd125e2b7ef798c2cf562ed79467427bb",
+  "fresh_git_clone": true,
+  "command": "python -m calib15 reproduce",
+  "locked_environment_reused": true,
+  "verified_raw_data_reused_via_junction": true,
+  "configurations": 32,
+  "daily_rows": 288,
+  "relative_tolerance": 1E-07,
+  "absolute_tolerance": 1E-07,
+  "matches_original": true,
+  "holdout_used": false,
+  "ci_url": "https://github.com/Nigmat-future/neurocalib-bench/actions/runs/39146578808"
+}

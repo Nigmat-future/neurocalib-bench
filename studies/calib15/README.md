@@ -106,6 +106,19 @@ excluded. If final testing completed, reproduction instead repeats precisely
 the four sealed comparisons; download their data with `download --phase all`.
 No GPU or language-model API is required.
 
+All **32 configurations and 288 daily rows reproduced successfully** from a fresh
+Git clone of commit `d8d87d6`, using the locked environment and verified local data.
+Every scientific row matched with absolute and relative tolerance **1e-7**;
+machine wall times were excluded. Inspect the
+[complete replay](results/reproduced/development.json) and
+[checkout provenance](results/reproduced/checkout.json). Replay added no trial and
+read no holdout target. The original and repeated ledgers remain identical.
+
+Software verification passed **61 tests**, Ruff, formatting and strict type
+checks. [Ubuntu and Windows CI passed](https://github.com/Nigmat-future/neurocalib-bench/actions/runs/39146578808).
+CI uses synthetic HDF5 recordings and lifecycle scenarios; the real-data replay
+is separate evidence and does not turn development outcomes into holdout results.
+
 The published source choice, code, dependency lock and protocol are bound by the
 first trial's checksums. `prepare` and new trials are for a separately identified
 new study, not a way to retune the published evidence. The original six-day pilot

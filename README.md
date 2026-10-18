@@ -21,6 +21,9 @@ The completed run tried eight candidates. Best supervised baseline R² was
 **0.350109**, versus **0.342235** for the best candidate: **ΔR² = -0.007874**.
 The development gate failed, so no final scheme was frozen and both animals'
 holdout targets remain unopened. [Inspect the complete study evidence](studies/calib15/README.md).
+All 32 configurations reproduced from a fresh Git checkout to `1e-7`; 61 tests and
+[Ubuntu/Windows CI](https://github.com/Nigmat-future/neurocalib-bench/actions/runs/39146578808)
+passed.
 
 The original pilot's locked results follow below.
 
