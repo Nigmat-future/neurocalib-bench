@@ -1,0 +1,25 @@
+{
+  "batch_id": "003-coverage-guard",
+  "parent_ledger_sha256": "5ad4a6913d2407b03cb7c09f241b97c8c78728152897d86947357d0f05fd54b4",
+  "rationale": "All sixteen shared-channel configurations failed. The strongest mean 0.3695165217122956 missed the fixed margin and had two negative-transfer days. Earlier diagnostics found a nearly rank-one labeled prefix on the largest harmful day. Test a development-inspired coverage heuristic, without identifying dates: whiten prefix velocity by the source covariance and retain the source readout if its minimum-to-maximum covariance eigenvalue ratio is below 0.01 (condition number above 100). Otherwise use shared-channel reweighting unchanged. This rule is selected on reused development data, not causal evidence. The first passing candidate stops all further search; sealed data remain unavailable until freeze.",
+  "configs": [
+    {
+      "mode": "custom",
+      "alpha": 0.01,
+      "strength": 1.0,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 1.0,
+      "method": "covered_gain"
+    },
+    {
+      "mode": "custom",
+      "alpha": 0.01,
+      "strength": 1.0,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 0.0,
+      "method": "covered_gain"
+    }
+  ]
+}

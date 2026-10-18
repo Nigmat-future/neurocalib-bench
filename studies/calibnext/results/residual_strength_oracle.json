@@ -1,0 +1,327 @@
+{
+  "posthoc_diagnostic_only": true,
+  "not_independent_validation": true,
+  "not_new_scored_candidate": true,
+  "new_raw_files_opened": false,
+  "new_real_predictions_computed": false,
+  "purpose": "Decide whether prefix-only selection of residual update strength has enough restricted-family oracle headroom to justify a prospective experiment. These scoring-oracle choices must never be used as a per-session deployment rule.",
+  "inputs_sha256": {
+    "studies/calib15/results/search_summary.csv": "b5f296478aeff247c114aa2edb45b930bcd94f599ab3ff5d0cf39a8110dd9648",
+    "studies/calib15/results/development.csv": "b32ad6e46ee12f43ecaf6524efdf8a19e7a31831fdf107a1566f92404fb2a2ce"
+  },
+  "sample": {
+    "animals": [
+      "indy"
+    ],
+    "development_days": 9,
+    "saved_baseline_configs": 24,
+    "saved_residual_configs": 18,
+    "saved_target_only_configs": 6,
+    "rows": 216,
+    "budget_seconds": 15
+  },
+  "reference": {
+    "trial_id": "881bf5bbe562b05dabd1619bbfbdedad9f5bed233508a9ed81c10979d6741c50",
+    "mode": "residual",
+    "alpha": 10,
+    "strength": 0.5,
+    "mean_r2": 0.35010946184569786,
+    "negative_transfer_days": 1
+  },
+  "formula": {
+    "head_scope": "For a fixed alpha and its fixed full-prefix residual decoder only. Strength rescales the same linear correction. Both axis R2 and their mean are quadratic in strength.",
+    "r2": "R(eta) = R0 + L*eta - C*eta^2",
+    "linear": "L = 4*R(0.5) - R(1) - 3*R0",
+    "curvature": "C = 2*(2*R(0.5) - R(1) - R0)",
+    "continuous_optimum": "clip(L/(2*C), 0, 1); endpoint maximizer when C is zero",
+    "oracle_aggregation": "Independently maximize each development day within the explicitly stated saved-head family, then take the equally weighted mean over all nine days. Negative transfer compares each selected result with that day frozen decoder using tolerance 1e-12.",
+    "quarter_reconstruction_max_absolute_error": 8.271161533457416e-15
+  },
+  "restricted_oracles": {
+    "saved24_discrete": {
+      "mean_r2": 0.3768847907061147,
+      "delta_to_reference": 0.02677532886041686,
+      "negative_transfer_days": 1,
+      "selected_by_scoring_oracle_only": {
+        "indy_20161011_03.mat": {
+          "mode": "residual",
+          "alpha": 1000.0,
+          "strength": 1.0,
+          "r2": 0.40460579745078545
+        },
+        "indy_20161014_04.mat": {
+          "mode": "residual",
+          "alpha": 10.0,
+          "strength": 1.0,
+          "r2": 0.4496489637786716
+        },
+        "indy_20161017_02.mat": {
+          "mode": "residual",
+          "alpha": 10.0,
+          "strength": 1.0,
+          "r2": 0.39068151051855166
+        },
+        "indy_20161024_03.mat": {
+          "mode": "residual",
+          "alpha": 10.0,
+          "strength": 0.5,
+          "r2": 0.3349349769578516
+        },
+        "indy_20161025_04.mat": {
+          "mode": "residual",
+          "alpha": 10.0,
+          "strength": 1.0,
+          "r2": 0.4674731095233245
+        },
+        "indy_20161026_03.mat": {
+          "mode": "residual",
+          "alpha": 10.0,
+          "strength": 1.0,
+          "r2": 0.395948135759233
+        },
+        "indy_20161027_03.mat": {
+          "mode": "residual",
+          "alpha": 1000.0,
+          "strength": 0.25,
+          "r2": 0.3036638333666229
+        },
+        "indy_20161206_02.mat": {
+          "mode": "residual",
+          "alpha": 10.0,
+          "strength": 1.0,
+          "r2": 0.26472952032590896
+        },
+        "indy_20161207_02.mat": {
+          "mode": "residual",
+          "alpha": 10.0,
+          "strength": 0.5,
+          "r2": 0.3802772686740828
+        }
+      }
+    },
+    "saved18_residual_discrete": {
+      "mean_r2": 0.3768847907061147,
+      "delta_to_reference": 0.02677532886041686,
+      "negative_transfer_days": 1,
+      "selected_by_scoring_oracle_only": {
+        "indy_20161011_03.mat": {
+          "mode": "residual",
+          "alpha": 1000.0,
+          "strength": 1.0,
+          "r2": 0.40460579745078545
+        },
+        "indy_20161014_04.mat": {
+          "mode": "residual",
+          "alpha": 10.0,
+          "strength": 1.0,
+          "r2": 0.4496489637786716
+        },
+        "indy_20161017_02.mat": {
+          "mode": "residual",
+          "alpha": 10.0,
+          "strength": 1.0,
+          "r2": 0.39068151051855166
+        },
+        "indy_20161024_03.mat": {
+          "mode": "residual",
+          "alpha": 10.0,
+          "strength": 0.5,
+          "r2": 0.3349349769578516
+        },
+        "indy_20161025_04.mat": {
+          "mode": "residual",
+          "alpha": 10.0,
+          "strength": 1.0,
+          "r2": 0.4674731095233245
+        },
+        "indy_20161026_03.mat": {
+          "mode": "residual",
+          "alpha": 10.0,
+          "strength": 1.0,
+          "r2": 0.395948135759233
+        },
+        "indy_20161027_03.mat": {
+          "mode": "residual",
+          "alpha": 1000.0,
+          "strength": 0.25,
+          "r2": 0.3036638333666229
+        },
+        "indy_20161206_02.mat": {
+          "mode": "residual",
+          "alpha": 10.0,
+          "strength": 1.0,
+          "r2": 0.26472952032590896
+        },
+        "indy_20161207_02.mat": {
+          "mode": "residual",
+          "alpha": 10.0,
+          "strength": 0.5,
+          "r2": 0.3802772686740828
+        }
+      }
+    },
+    "alpha10_strength_grid_025_050_075_100": {
+      "mean_r2": 0.3736027691504456,
+      "delta_to_reference": 0.02349330730474777,
+      "negative_transfer_days": 1,
+      "selected_by_scoring_oracle_only": {
+        "indy_20161011_03.mat": {
+          "alpha": 10.0,
+          "strength": 0.5,
+          "r2": 0.3921776822308068
+        },
+        "indy_20161014_04.mat": {
+          "alpha": 10.0,
+          "strength": 0.75,
+          "r2": 0.4497692448793585
+        },
+        "indy_20161017_02.mat": {
+          "alpha": 10.0,
+          "strength": 0.75,
+          "r2": 0.3925169584678887
+        },
+        "indy_20161024_03.mat": {
+          "alpha": 10.0,
+          "strength": 0.75,
+          "r2": 0.34559252803570134
+        },
+        "indy_20161025_04.mat": {
+          "alpha": 10.0,
+          "strength": 1,
+          "r2": 0.46747310952332455
+        },
+        "indy_20161026_03.mat": {
+          "alpha": 10.0,
+          "strength": 1,
+          "r2": 0.39594813575923304
+        },
+        "indy_20161027_03.mat": {
+          "alpha": 10.0,
+          "strength": 0.25,
+          "r2": 0.27394047445770603
+        },
+        "indy_20161206_02.mat": {
+          "alpha": 10.0,
+          "strength": 1,
+          "r2": 0.2647295203259089
+        },
+        "indy_20161207_02.mat": {
+          "alpha": 10.0,
+          "strength": 0.5,
+          "r2": 0.3802772686740828
+        }
+      }
+    },
+    "alpha10_continuous_strength_0_to_1": {
+      "mean_r2": 0.3791125165959957,
+      "delta_to_reference": 0.029003054750297845,
+      "negative_transfer_days": 0,
+      "selected_by_scoring_oracle_only": {
+        "indy_20161011_03.mat": {
+          "alpha": 10.0,
+          "strength": 0.4589002159288362,
+          "r2": 0.3922841656981664
+        },
+        "indy_20161014_04.mat": {
+          "alpha": 10.0,
+          "strength": 0.8731705165195567,
+          "r2": 0.451764104880101
+        },
+        "indy_20161017_02.mat": {
+          "alpha": 10.0,
+          "strength": 0.8631705461383432,
+          "r2": 0.3964913824743306
+        },
+        "indy_20161024_03.mat": {
+          "alpha": 10.0,
+          "strength": 0.7430683186192095,
+          "r2": 0.34560120227149604
+        },
+        "indy_20161025_04.mat": {
+          "alpha": 10.0,
+          "strength": 0.9300100700824794,
+          "r2": 0.4681874938186866
+        },
+        "indy_20161026_03.mat": {
+          "alpha": 10.0,
+          "strength": 0.9614576441264474,
+          "r2": 0.3961786269536517
+        },
+        "indy_20161027_03.mat": {
+          "alpha": 10.0,
+          "strength": 0,
+          "r2": 0.3163220354870555
+        },
+        "indy_20161206_02.mat": {
+          "alpha": 10.0,
+          "strength": 1,
+          "r2": 0.2647295203259089
+        },
+        "indy_20161207_02.mat": {
+          "alpha": 10.0,
+          "strength": 0.5264905569738637,
+          "r2": 0.38045411745456464
+        }
+      }
+    },
+    "six_saved_alphas_continuous_strength_0_to_1": {
+      "mean_r2": 0.38048158679073113,
+      "delta_to_reference": 0.0303721249450333,
+      "negative_transfer_days": 0,
+      "selected_by_scoring_oracle_only": {
+        "indy_20161011_03.mat": {
+          "alpha": 1000.0,
+          "strength": 1,
+          "r2": 0.40460579745078545
+        },
+        "indy_20161014_04.mat": {
+          "alpha": 10.0,
+          "strength": 0.8731705165195567,
+          "r2": 0.451764104880101
+        },
+        "indy_20161017_02.mat": {
+          "alpha": 10.0,
+          "strength": 0.8631705461383432,
+          "r2": 0.3964913824743306
+        },
+        "indy_20161024_03.mat": {
+          "alpha": 10.0,
+          "strength": 0.7430683186192095,
+          "r2": 0.34560120227149604
+        },
+        "indy_20161025_04.mat": {
+          "alpha": 10.0,
+          "strength": 0.9300100700824794,
+          "r2": 0.4681874938186866
+        },
+        "indy_20161026_03.mat": {
+          "alpha": 10.0,
+          "strength": 0.9614576441264474,
+          "r2": 0.3961786269536517
+        },
+        "indy_20161027_03.mat": {
+          "alpha": 0.01,
+          "strength": 0,
+          "r2": 0.3163220354870555
+        },
+        "indy_20161206_02.mat": {
+          "alpha": 10.0,
+          "strength": 1,
+          "r2": 0.2647295203259089
+        },
+        "indy_20161207_02.mat": {
+          "alpha": 10.0,
+          "strength": 0.5264905569738637,
+          "r2": 0.38045411745456464
+        }
+      }
+    }
+  },
+  "limitations": [
+    "All oracle selections use previously exposed development scoring metrics, not the allowed calibration prefix; they are impossible deployable selectors and optimistically bound only the specified saved correction families.",
+    "The derived eta=0.75 values and continuous optima require no raw labels or predictions: they are exact reconstructions from the saved metrics, checked against the independently saved eta=0.25 values.",
+    "Saved residual alphas are 0.01, 0.1, 1, 10, 100 and 1000. These calculations do not bound new alphas such as 3 or 30, new correction heads, or future animals.",
+    "Blocked prefix validation may not recover these choices: fifteen seconds contain few effective movement samples, folds fit fewer observations than the full prefix, and future behavior may differ.",
+    "No new actual candidate score or additional independent evidence is claimed. Any prospective method and its actual validation settings must be declared and logged before scoring."
+  ]
+}
