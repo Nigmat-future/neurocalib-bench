@@ -47,8 +47,13 @@ def reproduce_development(root: Path) -> Path:
     """Reevaluate recorded configurations only, keeping final access sealed."""
     with exclusive_run(study_dir(root)) as results:
         _ = read_inheritance(root)
+        ledger_hash = file_digest(results / "experiments.jsonl")
         events = read_events(root)
         inputs, runtime = fingerprints(root), environment()
+        if file_digest(results / "experiments.jsonl") != ledger_hash:
+            message = "Development ledger changed while reading the replay snapshot"
+            raise ResearchError(message)
+        manifests = {event.batch_id: event.batch_sha256 for event in events}
         complete = tuple(event for event in events if event.score is not None)
         if not complete:
             message = "No completed continued-development trials to reproduce"
@@ -73,12 +78,22 @@ def reproduce_development(root: Path) -> Path:
                 )
             )
         output = results / "reproduced" / "development.json"
+        if (
+            fingerprints(root) != inputs
+            or file_digest(results / "experiments.jsonl") != ledger_hash
+            or any(
+                file_digest(batch_path(root, name)) != checksum
+                for name, checksum in manifests.items()
+            )
+        ):
+            message = "Research inputs changed during development reproduction"
+            raise ResearchError(message)
         matches = all(trial.matches_original for trial in trials)
         write_record(
             output,
             Reproduction(
                 inputs=inputs,
-                ledger_sha256=file_digest(results / "experiments.jsonl"),
+                ledger_sha256=ledger_hash,
                 environment=runtime,
                 matches_original=matches,
                 trials=tuple(trials),

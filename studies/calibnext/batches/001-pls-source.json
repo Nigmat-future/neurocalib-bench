@@ -1,0 +1,151 @@
+{
+  "batch_id": "001-pls-source",
+  "parent_ledger_sha256": "",
+  "rationale": "Source-label-informed SIMPLS may retain transferable correction directions better than variance-only PCA. Components and shrinkage contrast sample variance against omitted drift; same prefix, baseline, and gate. Eight earlier MAP failures and two post-hoc diagnostics remain disclosed.",
+  "configs": [
+    {
+      "mode": "pls",
+      "alpha": 1.0,
+      "strength": 0.5,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 0.0
+    },
+    {
+      "mode": "pls",
+      "alpha": 1.0,
+      "strength": 1.0,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 0.0
+    },
+    {
+      "mode": "pls",
+      "alpha": 10.0,
+      "strength": 0.5,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 0.0
+    },
+    {
+      "mode": "pls",
+      "alpha": 10.0,
+      "strength": 1.0,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 0.0
+    },
+    {
+      "mode": "pls",
+      "alpha": 0.1,
+      "strength": 0.5,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 0.0
+    },
+    {
+      "mode": "pls",
+      "alpha": 0.1,
+      "strength": 1.0,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 0.0
+    },
+    {
+      "mode": "pls",
+      "alpha": 1.0,
+      "strength": 0.5,
+      "components": 16,
+      "geometry": "identity",
+      "bias_penalty": 0.0
+    },
+    {
+      "mode": "pls",
+      "alpha": 1.0,
+      "strength": 1.0,
+      "components": 16,
+      "geometry": "identity",
+      "bias_penalty": 0.0
+    },
+    {
+      "mode": "pls",
+      "alpha": 10.0,
+      "strength": 0.5,
+      "components": 16,
+      "geometry": "identity",
+      "bias_penalty": 0.0
+    },
+    {
+      "mode": "pls",
+      "alpha": 10.0,
+      "strength": 1.0,
+      "components": 16,
+      "geometry": "identity",
+      "bias_penalty": 0.0
+    },
+    {
+      "mode": "pls",
+      "alpha": 0.1,
+      "strength": 0.5,
+      "components": 16,
+      "geometry": "identity",
+      "bias_penalty": 0.0
+    },
+    {
+      "mode": "pls",
+      "alpha": 0.1,
+      "strength": 1.0,
+      "components": 16,
+      "geometry": "identity",
+      "bias_penalty": 0.0
+    },
+    {
+      "mode": "pls",
+      "alpha": 1.0,
+      "strength": 0.5,
+      "components": 32,
+      "geometry": "identity",
+      "bias_penalty": 0.0
+    },
+    {
+      "mode": "pls",
+      "alpha": 1.0,
+      "strength": 1.0,
+      "components": 32,
+      "geometry": "identity",
+      "bias_penalty": 0.0
+    },
+    {
+      "mode": "pls",
+      "alpha": 10.0,
+      "strength": 0.5,
+      "components": 32,
+      "geometry": "identity",
+      "bias_penalty": 0.0
+    },
+    {
+      "mode": "pls",
+      "alpha": 10.0,
+      "strength": 1.0,
+      "components": 32,
+      "geometry": "identity",
+      "bias_penalty": 0.0
+    },
+    {
+      "mode": "pls",
+      "alpha": 0.1,
+      "strength": 0.5,
+      "components": 32,
+      "geometry": "identity",
+      "bias_penalty": 0.0
+    },
+    {
+      "mode": "pls",
+      "alpha": 0.1,
+      "strength": 1.0,
+      "components": 32,
+      "geometry": "identity",
+      "bias_penalty": 0.0
+    }
+  ]
+}

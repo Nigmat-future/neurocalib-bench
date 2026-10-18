@@ -7,6 +7,14 @@ range diagnostic and original six-day pilot are also retained. Continued search
 increases development selection bias; only the still sealed final recordings can
 test generalization.
 
+An additional eight MAP configurations failed in the first continuation. Their
+unaltered evidence is archived in `studies/calibnext-map-initial`; commit
+`b7d3015` preserves the exact original paths and source for replay. Two post-hoc
+diagnostic configurations also exposed the same nine development dates. This
+revision fixes evidence-overwrite and replay-integrity guards before continuing
+with PLS and an additional source-anchored encoding mechanism. It does not reset
+or conceal the prior eight attempts, change the baseline, or relax the gate.
+
 ## Unchanged contract
 
 The original `studies/calib15/protocol.json` determines every recording, checksum,
@@ -26,7 +34,7 @@ dropped. No alternative aggregation or rescaled gain may replace this gate.
 
 ## Methods and ordered research batches
 
-Two mechanisms are implemented before candidate scoring:
+Three mechanisms are implemented before this revision's candidate scoring:
 
 1. Source-only SIMPLS regression directions identify a neural
    subspace using source behavior as well as neural covariance. Prefix residual
@@ -40,6 +48,13 @@ Two mechanisms are implemented before candidate scoring:
    either identity or `(source_covariance + 0.1 I) / 1.1`. This matrix, not its
    inverse, penalizes changes to directions identified by source data. These are
    established statistical mechanisms; this study does not claim a new algorithm.
+3. Source-anchored neural encoding updates the conditional mapping from whitened
+   velocity to source-standardized neural features with a two-slope and intercept
+   ridge fit. Source neural noise and velocity priors stay fixed. The source
+   joint covariance is constructed so its initial LMMSE decoder equals the fixed
+   source ridge exactly. Calibration changes the encoding coefficients and
+   intercept; the output correction is shrunk toward that exact source readout.
+   Calibration never estimates noise or velocity priors from scoring labels.
 
 Each finite batch is declared in an ordered manifest before its first trial.
 Every trial records its hypothesis, configuration, code and protocol hashes,

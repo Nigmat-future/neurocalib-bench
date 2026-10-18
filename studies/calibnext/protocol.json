@@ -1,5 +1,9 @@
 {
-  "version": "calibnext-v1",
+  "version": "calibnext-v2",
+  "previous_continuation": "studies/calibnext-map-initial",
+  "previous_continuation_commit": "b7d3015",
+  "previous_continuation_attempts": 8,
+  "posthoc_diagnostic_configurations": 2,
   "parent_study": "studies/calib15/protocol.json",
   "features": "studies/calib15/results/features.json",
   "parent_decision": "studies/calib15/results/decision.json",

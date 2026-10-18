@@ -75,6 +75,9 @@ def run_trial(root: Path, config: Config, hypothesis: str, batch_id: str) -> Pat
         inherited = check_history(root, events)
         batch = read_batch(root, batch_id)
         identifier = digest(config)
+        if any(event.trial_id == identifier for event in read_events(root, archive=True)):
+            message = "An archived configuration cannot restart; reproduce its historical commit"
+            raise ResearchError(message)
         path = results / "trials" / identifier / "result.json"
         prior = [event for event in events if event.trial_id == identifier]
         if prior:

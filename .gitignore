@@ -7,5 +7,6 @@ __pycache__/
 data/
 results/local*/
 results/.active
+studies/**/results/.active
 results/**/*.tmp
 *.partial

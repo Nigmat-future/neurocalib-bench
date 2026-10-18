@@ -3,7 +3,7 @@
 # requires-python = ">=3.12"
 # dependencies = ["numpy==2.5.4", "h5py==3.16.0", "pydantic==2.14.1"]
 # ///
-# noqa: E501  # noqa: SIZE_OK
+# ponytail: One standalone script preserves its strict recording whitelist and diagnostic bookkeeping. # noqa: E501  # noqa: SIZE_OK
 # ─── How to run ───
 # 1. Install uv: https://docs.astral.sh/uv/getting-started/installation/
 # 2. Run: uv run --script studies/calibnext/diagnose.py --root .

@@ -1,0 +1,3 @@
+extend = "pyproject.toml"
+# The initial diagnostic is preserved byte-for-byte for its historical replay.
+extend-exclude = ["studies/calibnext-map-initial"]

@@ -25,6 +25,14 @@ All 32 configurations reproduced from a fresh Git checkout to `1e-7`; 61 tests a
 [Ubuntu/Windows CI](https://github.com/Nigmat-future/neurocalib-bench/actions/runs/39146578808)
 passed.
 
+The [continued study](studies/calibnext/README.md) keeps the same threshold and
+sealed final dates. It diagnoses limited correction spaces, strongly correlated
+prefix samples, and mean drift; then tests supervised SIMPLS and source-anchored
+encoding alongside MAP priors. Eight additional MAP configurations have failed
+and numerically reproduced; their [historical archive](studies/calibnext-map-initial/README.md)
+is preserved. All repeated development exposure is disclosed. No final success
+is claimed before the gate and independent two-animal validation.
+
 The original pilot's locked results follow below.
 
 ## Locked pilot results

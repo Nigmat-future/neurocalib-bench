@@ -58,7 +58,13 @@ def _prepare_animal(
         for block in iter_design(session, channels, features, study.bin_seconds)
     )
     prepared = prepare_moments(
-        stats.n, stats.sum_x, stats.sum_y, stats.xx, stats.xy, features.source_alpha
+        stats.n,
+        stats.sum_x,
+        stats.sum_y,
+        stats.xx,
+        stats.xy,
+        features.source_alpha,
+        yy=stats.yy,
     )
     return prepared, channels
 

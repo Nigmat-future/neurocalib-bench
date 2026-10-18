@@ -23,6 +23,7 @@ class SourceStatistics:
     sum_y: FloatArray
     xx: FloatArray
     xy: FloatArray
+    yy: FloatArray
 
 
 def iter_design(
@@ -69,6 +70,7 @@ def source_statistics(blocks: Iterable[Design]) -> SourceStatistics:
     n = 0
     sum_x, sum_y = np.zeros(dimensions), np.zeros(outputs)
     xx, xy = np.zeros((dimensions, dimensions)), np.zeros((dimensions, outputs))
+    yy = np.zeros((outputs, outputs))
     for block in chain((first,), iterator):
         valid = np.isfinite(block.y).all(axis=1)
         x, y = block.x[valid], block.y[valid]
@@ -77,7 +79,8 @@ def source_statistics(blocks: Iterable[Design]) -> SourceStatistics:
         sum_y += y.sum(axis=0)
         xx += x.T @ x
         xy += x.T @ y
+        yy += y.T @ y
     if n == 0:
         message = "source designs have no finite behavior labels"
         raise ValueError(message)
-    return SourceStatistics(n, sum_x, sum_y, xx, xy)
+    return SourceStatistics(n, sum_x, sum_y, xx, xy, yy)

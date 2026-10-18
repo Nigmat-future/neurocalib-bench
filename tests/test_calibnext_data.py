@@ -61,6 +61,7 @@ class TestStreamingData(unittest.TestCase):
             for session in sessions
             for block in iter_design(session, session.channels, features, 0.02, block_size=19)
         )
+        np.testing.assert_allclose(moments.yy, y.T @ y, rtol=1e-12, atol=1e-12)
         # Then the same standardized ridge decoder is recovered without source X.
         center, bias = moments.sum_x / moments.n, moments.sum_y / moments.n
         scale = np.sqrt(np.maximum(np.diag(moments.xx) / moments.n - center**2, 0))

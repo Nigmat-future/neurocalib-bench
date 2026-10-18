@@ -9,7 +9,19 @@ from calib15.records import Gate as ParentGate
 from calib15.records import mean_r2, negative_days, validate_rows
 from calib15.records import read_events as read_parent_events
 from calib15.schema import Calibration, Features
-from calibnext.schema import EPSILON, Batch, Frozen, Inheritance, Sanity, Trial, decide, passes
+from calibnext.schema import (
+    EPSILON,
+    Batch,
+    Decision,
+    Frozen,
+    Inheritance,
+    Sanity,
+    Trial,
+    check_parity,
+    decide,
+    passes,
+    previous_attempts,
+)
 from neurocalib.ledger import ResearchError, Started, digest, environment, file_digest
 
 ANCHOR_SCORE: Final = 0.35010946184569786
@@ -26,6 +38,22 @@ def study_dir(root: Path) -> Path:
 def results_dir(root: Path) -> Path:
     """Return the cumulative follow-up evidence directory."""
     return study_dir(root) / "results"
+
+
+def archive_files(root: Path) -> tuple[Path, ...]:
+    """Bind the explicit historical continuation when its archive is present."""
+    archive = root / "studies" / "calibnext-map-initial"
+    return (
+        (
+            archive / "protocol.json",
+            *(
+                archive / "results" / name
+                for name in ("experiments.jsonl", "decision.json", "sanity.json")
+            ),
+        )
+        if archive.exists()
+        else ()
+    )
 
 
 def batch_path(root: Path, batch_id: str) -> Path:
@@ -85,26 +113,32 @@ def read_inheritance(root: Path) -> Inheritance:
     ):
         message = "Inherited baseline score, harm, features or scientific inputs changed"
         raise ResearchError(message)
-    return Inheritance(
+    inherited = Inheritance(
         baseline=baseline,
         features=features,
         parent_ledger_sha256=file_digest(ledger),
         references=(decision.baseline_best, decision.target_best, Calibration(mode="frozen")),
     )
+    archived = archive_files(root)
+    if archived:
+        if not all(path.is_file() for path in archived):
+            message = "Continuation archive must retain all four complete evidence files"
+            raise ResearchError(message)
+        count = previous_attempts(
+            read_events(root, archive=True),
+            Decision.model_validate_json(archived[2].read_bytes()),
+            Sanity.model_validate_json(archived[3].read_bytes()),
+            inherited,
+        )
+        inherited = inherited.model_copy(update={"previous_continuation_attempts": count})
+    return inherited
 
 
 def check_sanity(root: Path, inherited: Inheritance) -> None:
     """Require verified pipeline parity before another development label is exposed."""
     sanity = Sanity.model_validate_json((results_dir(root) / "sanity.json").read_bytes())
     _ = validate_rows(root, sanity.rows, "development", (15,))
-    if (
-        not sanity.matches_original
-        or sanity.parent_trial_id != inherited.baseline.trial_id
-        or not math.isclose(mean_r2(sanity.rows), ANCHOR_SCORE, abs_tol=1e-7, rel_tol=0)
-        or negative_days(sanity.rows) != ANCHOR_HARM
-    ):
-        message = "The new pipeline has not reproduced its inherited baseline"
-        raise ResearchError(message)
+    check_parity(sanity, inherited)
 
 
 def fingerprints(root: Path) -> dict[str, str]:
@@ -123,6 +157,7 @@ def fingerprints(root: Path) -> dict[str, str]:
         for name in ("features.json", "source_tuning.json", "experiments.jsonl", "decision.json")
     )
     paths.append(results_dir(root) / "sanity.json")
+    paths.extend(archive_files(root))
     paths.extend(
         path
         for path in (study_dir(root) / "diagnose.py", results_dir(root) / "diagnosis.json")
@@ -139,9 +174,12 @@ def append_event(path: Path, event: Trial) -> None:
         os.fsync(stream.fileno())
 
 
-def read_events(root: Path) -> tuple[Trial, ...]:
+def read_events(root: Path, *, archive: bool = False) -> tuple[Trial, ...]:
     """Replay immutable snapshots, including unsuccessful and crashed hypotheses."""
-    path = results_dir(root) / "experiments.jsonl"
+    folder = (
+        root / "studies" / "calibnext-map-initial" / "results" if archive else results_dir(root)
+    )
+    path = folder / "experiments.jsonl"
     if not path.exists():
         return ()
     events = tuple(

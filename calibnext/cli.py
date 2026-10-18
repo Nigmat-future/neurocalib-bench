@@ -13,11 +13,11 @@ from pydantic import ValidationError
 from calib15.records import Gate
 from calib15.records import read_events as parent_events
 from calibnext.evaluation import evaluate_reference
-from calibnext.records import read_batch, results_dir
+from calibnext.records import read_batch, results_dir, study_dir
 from calibnext.schema import Sanity, Trial
 from calibnext.seal import final, reproduce, same_rows
 from calibnext.workflow import freeze, gate, run_trial
-from neurocalib.ledger import Record, ResearchError, write_record
+from neurocalib.ledger import Record, ResearchError, exclusive_run, write_record
 
 
 class Arguments(Record):
@@ -30,23 +30,39 @@ class Arguments(Record):
 
 def sanity(root: Path) -> Path:
     """Recompute the exact old baseline using the new streaming implementation."""
-    results = root / "studies" / "calib15" / "results"
-    decision = Gate.model_validate_json((results / "decision.json").read_bytes())
-    baseline = next(
-        event
-        for event in parent_events(results / "experiments.jsonl")
-        if event.config == decision.baseline_best and event.score is not None
-    )
-    rows = evaluate_reference(root, baseline.config)
-    matches = same_rows(baseline.rows, rows)
-    path = results_dir(root) / "sanity.json"
-    write_record(
-        path, Sanity(matches_original=matches, parent_trial_id=baseline.trial_id, rows=rows)
-    )
-    if not matches:
-        message = "Inherited baseline differs in the continued evaluator"
-        raise ResearchError(message)
-    return path
+    with exclusive_run(study_dir(root)) as output:
+        if any(
+            (output / name).exists()
+            for name in (
+                "experiments.jsonl",
+                "frozen.json",
+                "final.started.json",
+            )
+        ):
+            message = "Sanity evidence is immutable after the first trial"
+            raise ResearchError(message)
+        results = root / "studies" / "calib15" / "results"
+        decision = Gate.model_validate_json((results / "decision.json").read_bytes())
+        baseline = next(
+            event
+            for event in parent_events(results / "experiments.jsonl")
+            if event.config == decision.baseline_best and event.score is not None
+        )
+        rows = evaluate_reference(root, baseline.config)
+        matches = same_rows(baseline.rows, rows)
+        path = output / "sanity.json"
+        write_record(
+            path,
+            Sanity(
+                matches_original=matches,
+                parent_trial_id=baseline.trial_id,
+                rows=rows,
+            ),
+        )
+        if not matches:
+            message = "Inherited baseline differs in the continued evaluator"
+            raise ResearchError(message)
+        return path
 
 
 def _execute(args: Arguments) -> None:

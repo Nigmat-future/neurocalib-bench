@@ -107,6 +107,14 @@ def _run(root: Path, label: str, config: Config | Calibration, seal_hash: str) -
     )
 
 
+def _download_final(root: Path) -> None:
+    require_final_access(root)
+    for spec in read_study(root).files:
+        if spec.role == "test" or spec.animal == "loco":
+            require_final_access(root)
+            _ = download_recording(root, spec)
+
+
 def final(root: Path) -> Path:
     """Authorize downloads and validation only after verifying a passing seal."""
     with exclusive_run(study_dir(root)) as results:
@@ -119,9 +127,7 @@ def final(root: Path) -> Path:
         if not marker.exists():
             write_record(marker, Started(frozen_sha256=seal_hash), exclusive=True)
         require_final_access(root)
-        for spec in read_study(root).files:
-            if spec.role == "test" or spec.animal == "loco":
-                _ = download_recording(root, spec)
+        _download_final(root)
         runs: list[Run] = []
         for label, config in comparisons(frozen):
             path = results / "final" / f"{label}.json"
@@ -190,6 +196,7 @@ def reproduce(root: Path) -> Path:
         if any(runtime[name] != frozen.environment[name] for name in ("numpy", "h5py", "pydantic")):
             message = "Reproduction requires the locked scientific dependencies"
             raise ResearchError(message)
+        _download_final(root)
         runs = tuple(_run(root, label, config, seal_hash) for label, config in comparisons(frozen))
         matches = all(
             same_rows(old.rows, new.rows) for old, new in zip(original.runs, runs, strict=True)

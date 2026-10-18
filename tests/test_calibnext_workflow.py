@@ -1,6 +1,7 @@
 """Cumulative research provenance, finite batches, and the pre-holdout seal."""
 
 import json
+import shutil
 import tempfile
 import unittest
 from datetime import UTC, datetime
@@ -11,7 +12,7 @@ from calib15.records import BASELINES, Gate
 from calib15.records import Trial as ParentTrial
 from calib15.schema import Calibration, Features, Row
 from calibnext import workflow
-from calibnext.records import require_final_access
+from calibnext.records import fingerprints, read_inheritance, require_final_access
 from calibnext.schema import Batch, Config, Sanity
 from neurocalib.ledger import Started, digest, environment, file_digest, write_record
 
@@ -98,17 +99,15 @@ class CalibNextTests(unittest.TestCase):
                 status="running",
             )
             score = ANCHOR if config == anchor else 0.2
-            events.extend(
-                (
-                    start,
-                    start.model_copy(
-                        update={
-                            "sequence": start.sequence + 1,
-                            "status": "keep",
-                            "score": score,
-                            "rows": self.rows(score),
-                        }
-                    ),
+            events.append(start)
+            events.append(
+                start.model_copy(
+                    update={
+                        "sequence": start.sequence + 1,
+                        "status": "keep",
+                        "score": score,
+                        "rows": self.rows(score),
+                    }
                 )
             )
         ledger = self.parent / "results/experiments.jsonl"
@@ -148,6 +147,45 @@ class CalibNextTests(unittest.TestCase):
         self.assertEqual((phase, budgets), ("development", (15,)))
         return self.rows(0.38 if config.alpha == 1 else 0.34)
 
+    def archive(self, count=8):
+        configs = tuple(Config(alpha=number) for number in range(2, count + 2))
+        self.batch("001-map", configs)
+        with patch("calibnext.evaluation.evaluate", side_effect=self.evaluate):
+            for config in configs:
+                workflow.run_trial(self.root, config, "Earlier MAP", "001-map")
+        _ = workflow.gate(self.root)
+        archive = self.root / "studies/calibnext-map-initial"
+        _ = shutil.copytree(self.study, archive)
+        (self.results / "experiments.jsonl").unlink()
+        return archive
+
+    def test_archive_exposure_is_inherited_bound_and_not_retried(self):
+        # Given: eight previously failed MAP attempts, followed by a fresh ledger.
+        archive = self.archive()
+        config = Config(alpha=20)
+        self.batch("002-map", (Config(alpha=2), config))
+        # When: an archived configuration tries to consume another label exposure.
+        with self.assertRaisesRegex(RuntimeError, "archived"):
+            workflow.run_trial(self.root, Config(alpha=2), "Repeated", "002-map")
+        # Then: ancestry retains all eight attempts and binds its four evidence files.
+        self.assertEqual(read_inheritance(self.root).previous_continuation_attempts, 8)
+        self.assertEqual(workflow.gate(self.root).previous_continuation_attempts, 8)
+        self.assertEqual(sum("calibnext-map-initial/" in key for key in fingerprints(self.root)), 4)
+        original = fingerprints(self.root)
+        with (archive / "protocol.json").open("a", encoding="utf-8") as stream:
+            _ = stream.write("\n")
+        self.assertNotEqual(fingerprints(self.root), original)
+
+    def test_archive_must_be_complete_and_contain_eight_trials(self):
+        # Given: an explicitly archived continuation with only seven completed trials.
+        archive = self.archive(7)
+        # When/Then: neither partial counts nor absent evidence can hide exposure.
+        with self.assertRaisesRegex(RuntimeError, "eight"):
+            read_inheritance(self.root)
+        (archive / "protocol.json").unlink()
+        with self.assertRaisesRegex(RuntimeError, "complete"):
+            read_inheritance(self.root)
+
     def test_first_passing_candidate_stops_batch(self):
         # Given: an immutable two-candidate follow-up batch.
         first, second = Config(alpha=1.0), Config(alpha=2.0)
@@ -160,6 +198,7 @@ class CalibNextTests(unittest.TestCase):
         # Then: the decision retains prior exposure rather than claiming independence.
         decision = workflow.gate(self.root)
         self.assertTrue(decision.passed)
+        self.assertEqual(decision.previous_continuation_attempts, 0)
         self.assertEqual(
             (decision.inherited_configurations, decision.inherited_candidates), (32, 8)
         )

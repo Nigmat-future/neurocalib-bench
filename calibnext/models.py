@@ -5,8 +5,11 @@ from typing import Final, assert_never
 
 import numpy as np
 
+from calibnext.encoding import EncodingSource, prepare_source
+from calibnext.encoding import adapt as adapt_encoding
 from calibnext.schema import Config
 from neurocalib.core import MIN_SCALE, Decoder, fit
+from neurocalib.ledger import ResearchError
 from neurocalib.schema import FloatArray
 
 MAX_COMPONENTS: Final = 32
@@ -21,6 +24,7 @@ class Prepared:
     model: Decoder
     covariance: FloatArray
     basis: FloatArray
+    encoding: EncodingSource | None = None
 
 
 def _simpls(covariance: FloatArray, cross: FloatArray) -> FloatArray:
@@ -64,6 +68,8 @@ def prepare_moments(  # noqa: PLR0913, PLR0917
     xx: FloatArray,
     xy: FloatArray,
     alpha: float,
+    *,
+    yy: FloatArray | None = None,
 ) -> Prepared:
     """Fit standardized source ridge and SIMPLS from raw first and second moments."""
     if n <= 0:
@@ -78,7 +84,8 @@ def prepare_moments(  # noqa: PLR0913, PLR0917
     cross = (xy / n - np.outer(center, bias)) / scale[:, None]
     weights = np.linalg.solve(covariance + alpha * np.eye(len(center)), cross)
     model = Decoder(center, scale, weights, bias)
-    return Prepared(model, covariance, _simpls(covariance, cross))
+    encoding = prepare_source(model, covariance, n, yy, alpha) if yy is not None else None
+    return Prepared(model, covariance, _simpls(covariance, cross), encoding)
 
 
 def prepare(source_x: FloatArray, source_y: FloatArray, source_alpha: float) -> Prepared:
@@ -90,6 +97,7 @@ def prepare(source_x: FloatArray, source_y: FloatArray, source_alpha: float) -> 
         source_x.T @ source_x,
         source_x.T @ source_y,
         source_alpha,
+        yy=source_y.T @ source_y,
     )
 
 
@@ -125,6 +133,11 @@ def adapt(
     z = (prefix_x - model.center) / model.scale
     residual = prefix_y - model.predict(prefix_x)
     match config.mode:
+        case "encoding":
+            if prepared.encoding is None:
+                message = "encoding calibration requires source velocity second moments"
+                raise ResearchError(message)
+            return adapt_encoding(prepared.encoding, prefix_x, prefix_y, config)
         case "map":
             correction, offset = _map_update(prepared, z, residual, config)
         case "pls":

@@ -38,10 +38,12 @@ jobs:
       - name: Check formatting
         run: uv run --no-sync ruff format --check .
       - name: Check types
-        run: uv run --no-sync basedpyright neurocalib calib15
+        run: uv run --no-sync basedpyright neurocalib calib15 calibnext
       - name: Run synthetic and CLI tests
         run: uv run --no-sync python -m unittest discover -s tests -v
       - name: Check command entry point
         run: uv run --no-sync python -m neurocalib --help
       - name: Check independent calibration entry point
         run: uv run --no-sync python -m calib15 --help
+      - name: Check continued calibration entry point
+        run: uv run --no-sync python -m calibnext --help

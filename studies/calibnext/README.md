@@ -6,12 +6,16 @@ nine Indy development dates, source features, strongest supervised baseline, and
 passes the unchanged development gate. This is repeated development selection,
 not a new independent study.
 
-The initial eight MAP trials completed without passing. Best mean R² was
+The [initial eight MAP trials](../calibnext-map-initial/results/decision.json)
+completed without passing. Best mean R² was
 0.34380420268891343 (source precision, alpha 10, full strength, intercept penalty
 1), a difference of -0.006305259156784426 from the reference, with one harmful
 day. All eight trials numerically reproduced to 1e-7. This initial implementation
-is preserved before fixing a CLI issue: calling `sanity` again after trials can
-overwrite bound evidence. No final recording was accessed.
+is preserved at commit `b7d3015` before fixing a CLI issue: calling `sanity` again
+after trials could overwrite bound evidence. That entry point now rejects the
+operation before data access. Replay also rechecks bindings after computation.
+No final recording was accessed. The prior eight attempts remain explicitly
+included in this revision's exposure counts.
 
 ## Why the earlier methods failed
 
@@ -41,7 +45,10 @@ whitelist and cannot use the final or Loco recordings.
 Source-supervised **SIMPLS** directions replace neural-variance PCA. A second
 family performs **source-anchored MAP residual updates** with fixed source
 coordinates, paired identity/source covariance precision, and an independently
-regularized intercept. Neither family is claimed as a new statistical algorithm.
+regularized intercept. A third family updates a source-anchored neural encoding
+model and uses fixed source noise and velocity priors for LMMSE decoding. Its
+uncalibrated readout equals the original source ridge. These are established
+statistical mechanisms, not claimed as new algorithms.
 The source precision is `(C_source + 0.1 I) / 1.1`, not its inverse.
 
 PLS has existing neural-decoding precedents, including
@@ -65,7 +72,7 @@ From the repository root, with the existing locked environment:
 uv sync --locked
 uv run --no-sync python -m calib15 download
 uv run --no-sync python -m calibnext sanity
-uv run --no-sync python -m calibnext batch 001-map-prior
+uv run --no-sync python -m calibnext batch 001-pls-source
 uv run --no-sync python -m calibnext gate
 uv run --no-sync python -m calibnext reproduce
 ```
