@@ -1,0 +1,151 @@
+{
+  "batch_id": "002-shared-gain",
+  "parent_ledger_sha256": "49b20618d52b185babcc29a3177b29c1447826a1916585d637517600f2bd7458",
+  "rationale": "The task-augmented full residual batch improved the mean by only 0.000777. Test a different structural prior: one unconstrained channel coefficient shared across all ten lags and both output axes, plus independently penalized offsets. The design is normalized by source-only velocity RMS, so smaller alpha values are appropriate than for prefix-standardized neural ridge. Retain all nine dates and the same 15-second labels; stop on the first passing gate.",
+  "configs": [
+    {
+      "mode": "custom",
+      "alpha": 0.01,
+      "strength": 0.5,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 0.0,
+      "method": "shared_gain"
+    },
+    {
+      "mode": "custom",
+      "alpha": 0.01,
+      "strength": 1.0,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 0.0,
+      "method": "shared_gain"
+    },
+    {
+      "mode": "custom",
+      "alpha": 0.01,
+      "strength": 0.5,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 1.0,
+      "method": "shared_gain"
+    },
+    {
+      "mode": "custom",
+      "alpha": 0.01,
+      "strength": 1.0,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 1.0,
+      "method": "shared_gain"
+    },
+    {
+      "mode": "custom",
+      "alpha": 0.1,
+      "strength": 0.5,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 0.0,
+      "method": "shared_gain"
+    },
+    {
+      "mode": "custom",
+      "alpha": 0.1,
+      "strength": 1.0,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 0.0,
+      "method": "shared_gain"
+    },
+    {
+      "mode": "custom",
+      "alpha": 0.1,
+      "strength": 0.5,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 1.0,
+      "method": "shared_gain"
+    },
+    {
+      "mode": "custom",
+      "alpha": 0.1,
+      "strength": 1.0,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 1.0,
+      "method": "shared_gain"
+    },
+    {
+      "mode": "custom",
+      "alpha": 0.001,
+      "strength": 0.5,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 0.0,
+      "method": "shared_gain"
+    },
+    {
+      "mode": "custom",
+      "alpha": 0.001,
+      "strength": 1.0,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 0.0,
+      "method": "shared_gain"
+    },
+    {
+      "mode": "custom",
+      "alpha": 0.001,
+      "strength": 0.5,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 1.0,
+      "method": "shared_gain"
+    },
+    {
+      "mode": "custom",
+      "alpha": 0.001,
+      "strength": 1.0,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 1.0,
+      "method": "shared_gain"
+    },
+    {
+      "mode": "custom",
+      "alpha": 1.0,
+      "strength": 0.5,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 0.0,
+      "method": "shared_gain"
+    },
+    {
+      "mode": "custom",
+      "alpha": 1.0,
+      "strength": 1.0,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 0.0,
+      "method": "shared_gain"
+    },
+    {
+      "mode": "custom",
+      "alpha": 1.0,
+      "strength": 0.5,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 1.0,
+      "method": "shared_gain"
+    },
+    {
+      "mode": "custom",
+      "alpha": 1.0,
+      "strength": 1.0,
+      "components": 8,
+      "geometry": "identity",
+      "bias_penalty": 1.0,
+      "method": "shared_gain"
+    }
+  ]
+}

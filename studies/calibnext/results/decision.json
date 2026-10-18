@@ -1,0 +1,20 @@
+{
+  "passed": false,
+  "reason": "No additional candidate met the margin and harm rule on reused development days",
+  "winner": {
+    "mode": "custom",
+    "alpha": 1.0,
+    "strength": 0.5,
+    "components": 8,
+    "geometry": "identity",
+    "bias_penalty": 0.0,
+    "method": "task_residual"
+  },
+  "score": 0.35088667231396226,
+  "delta": 0.0007772104682643999,
+  "negative_days": 1,
+  "inherited_configurations": 32,
+  "inherited_candidates": 8,
+  "previous_continuation_attempts": 38,
+  "additional_attempts": 9
+}
