@@ -66,9 +66,9 @@ uv run --no-sync basedpyright
 uv run --no-sync python -m unittest discover -s tests -v
 ```
 
-Local verification passed **23 unittest tests**, lint, formatting, and type checks. CI is configured for Python 3.12 on Ubuntu and Windows. Tests use synthetic HDF5 fixtures and do not download the research recordings. Passing those tests establishes software checks, not evidence for the neuroscience hypothesis.
+Local verification passed **23 unittest tests**, lint, formatting, and type checks. [Ubuntu and Windows CI passed on the initial implementation](https://github.com/Nigmat-future/neurocalib-bench/actions/runs/39142899064). Tests use synthetic HDF5 fixtures and do not download the research recordings. Passing those tests establishes software checks, not evidence for the neuroscience hypothesis.
 
-Full numerical reproduction passed for all seven frozen comparisons: [`matches: true`](results/reproduced/report.json), with relative and absolute tolerance `1e-7`. This verifies a complete local rerun; the remote CI result is not yet available.
+Full numerical reproduction passed for all seven frozen comparisons: [`matches: true`](results/reproduced/report.json), with relative and absolute tolerance `1e-7`. A fresh Git checkout also reproduced all seven comparisons, verifying that the committed files preserve the frozen evidence hashes.
 
 ## What is being compared
 
