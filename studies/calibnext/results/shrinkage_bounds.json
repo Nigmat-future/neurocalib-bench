@@ -1,0 +1,224 @@
+{
+  "posthoc_diagnostic_only": true,
+  "not_new_scored_candidate": true,
+  "note": "Exact concave R2 quadratic for each fixed linear correction head. Does not bound other alpha, bias penalty, geometry, component counts, or algorithms. No raw labels reopened. Gate eligibility including harm was not optimized.",
+  "formula": "mean_R2(s)=frozen_mean+linear*s-curvature*s*s",
+  "inputs": {
+    "studies\\calibnext-map-initial\\results\\experiments.jsonl": "e360c709c6a821f875633261508b868ade946b4fe6d0fb78671513cf5f229bb4",
+    "studies\\calibnext\\results\\experiments.jsonl": "97ffffa7123750442148171f237e4e45d8650cac5dedefe3918e3eeb4bfa4738"
+  },
+  "heads": [
+    {
+      "head": {
+        "alpha": 3.0,
+        "bias_penalty": 1.0,
+        "components": 8,
+        "geometry": "identity",
+        "mode": "map"
+      },
+      "frozen_mean": 0.2831333390810988,
+      "linear": 0.24037221309639195,
+      "curvature": 0.3550609998490478,
+      "optimal_strength": 0.3384942491551942,
+      "posthoc_upper_bound_mean_r2": 0.3238156449760165,
+      "reconstructed_half": 0.3145541956670328,
+      "reconstructed_full": 0.1684445523284429
+    },
+    {
+      "head": {
+        "alpha": 10.0,
+        "bias_penalty": 1.0,
+        "components": 8,
+        "geometry": "identity",
+        "mode": "map"
+      },
+      "frozen_mean": 0.2831333390810988,
+      "linear": 0.21236492213882185,
+      "curvature": 0.20058195187494254,
+      "optimal_strength": 0.5293719603227953,
+      "posthoc_upper_bound_mean_r2": 0.3393433566493117,
+      "reconstructed_half": 0.33917031218177407,
+      "reconstructed_full": 0.2949163093449781
+    },
+    {
+      "head": {
+        "alpha": 3.0,
+        "bias_penalty": 1.0,
+        "components": 8,
+        "geometry": "source",
+        "mode": "map"
+      },
+      "frozen_mean": 0.2831333390810988,
+      "linear": 0.2226342298271497,
+      "curvature": 0.21733271526570885,
+      "optimal_strength": 0.5121967706402584,
+      "posthoc_upper_bound_mean_r2": 0.34014960585682236,
+      "reconstructed_half": 0.3401172751782464,
+      "reconstructed_full": 0.2884348536425396
+    },
+    {
+      "head": {
+        "alpha": 10.0,
+        "bias_penalty": 1.0,
+        "components": 8,
+        "geometry": "source",
+        "mode": "map"
+      },
+      "frozen_mean": 0.2831333390810988,
+      "linear": 0.17920091052523807,
+      "curvature": 0.11853004691742342,
+      "optimal_strength": 0.7559303112825154,
+      "posthoc_upper_bound_mean_r2": 0.35086503911882544,
+      "reconstructed_half": 0.34310128261436196,
+      "reconstructed_full": 0.34380420268891343
+    },
+    {
+      "head": {
+        "alpha": 1.0,
+        "bias_penalty": 0.0,
+        "components": 8,
+        "geometry": "identity",
+        "mode": "pls"
+      },
+      "frozen_mean": 0.2831333390810988,
+      "linear": 0.15637707529681927,
+      "curvature": 0.1346414397864858,
+      "optimal_strength": 0.5807167375245014,
+      "posthoc_upper_bound_mean_r2": 0.32853873157609487,
+      "reconstructed_half": 0.32766151678288696,
+      "reconstructed_full": 0.30486897459143225
+    },
+    {
+      "head": {
+        "alpha": 10.0,
+        "bias_penalty": 0.0,
+        "components": 8,
+        "geometry": "identity",
+        "mode": "pls"
+      },
+      "frozen_mean": 0.2831333390810988,
+      "linear": 0.140142023737015,
+      "curvature": 0.09478127076296716,
+      "optimal_strength": 0.739291753575914,
+      "posthoc_upper_bound_mean_r2": 0.3349362603202064,
+      "reconstructed_half": 0.3295090332588645,
+      "reconstructed_full": 0.3284940920551466
+    },
+    {
+      "head": {
+        "alpha": 0.1,
+        "bias_penalty": 0.0,
+        "components": 8,
+        "geometry": "identity",
+        "mode": "pls"
+      },
+      "frozen_mean": 0.2831333390810988,
+      "linear": 0.21029874984738683,
+      "curvature": 0.2521012946217509,
+      "optimal_strength": 0.4170917689314448,
+      "posthoc_upper_bound_mean_r2": 0.32699027787005774,
+      "reconstructed_half": 0.32525739034935447,
+      "reconstructed_full": 0.2413307943067347
+    },
+    {
+      "head": {
+        "alpha": 1.0,
+        "bias_penalty": 0.0,
+        "components": 16,
+        "geometry": "identity",
+        "mode": "pls"
+      },
+      "frozen_mean": 0.2831333390810988,
+      "linear": 0.16293131423602641,
+      "curvature": 0.13738490537184977,
+      "optimal_strength": 0.5929738561708509,
+      "posthoc_upper_bound_mean_r2": 0.3314403439278594,
+      "reconstructed_half": 0.33025276985614954,
+      "reconstructed_full": 0.3086797479452754
+    },
+    {
+      "head": {
+        "alpha": 10.0,
+        "bias_penalty": 0.0,
+        "components": 16,
+        "geometry": "identity",
+        "mode": "pls"
+      },
+      "frozen_mean": 0.2831333390810988,
+      "linear": 0.1418816862615188,
+      "curvature": 0.09116955409232685,
+      "optimal_strength": 0.7781198870284924,
+      "posthoc_upper_bound_mean_r2": 0.33833381992371125,
+      "reconstructed_half": 0.33128179368877647,
+      "reconstructed_full": 0.33384547125029074
+    },
+    {
+      "head": {
+        "alpha": 0.1,
+        "bias_penalty": 0.0,
+        "components": 16,
+        "geometry": "identity",
+        "mode": "pls"
+      },
+      "frozen_mean": 0.2831333390810988,
+      "linear": 0.2234127387278813,
+      "curvature": 0.2917650503325623,
+      "optimal_strength": 0.3828641204168028,
+      "posthoc_upper_bound_mean_r2": 0.32590169993257845,
+      "reconstructed_half": 0.32189844586189886,
+      "reconstructed_full": 0.2147810274764178
+    },
+    {
+      "head": {
+        "alpha": 1.0,
+        "bias_penalty": 0.0,
+        "components": 32,
+        "geometry": "identity",
+        "mode": "pls"
+      },
+      "frozen_mean": 0.2831333390810988,
+      "linear": 0.18331437309632592,
+      "curvature": 0.1623713993191933,
+      "optimal_strength": 0.564490956735436,
+      "posthoc_upper_bound_mean_r2": 0.33487299200734966,
+      "reconstructed_half": 0.3341976757994634,
+      "reconstructed_full": 0.3040763128582314
+    },
+    {
+      "head": {
+        "alpha": 10.0,
+        "bias_penalty": 0.0,
+        "components": 32,
+        "geometry": "identity",
+        "mode": "pls"
+      },
+      "frozen_mean": 0.2831333390810988,
+      "linear": 0.14869448106911193,
+      "curvature": 0.09116232625566989,
+      "optimal_strength": 0.8155478648717776,
+      "posthoc_upper_bound_mean_r2": 0.34376707235816434,
+      "reconstructed_half": 0.33468999805173727,
+      "reconstructed_full": 0.3406654938945408
+    },
+    {
+      "head": {
+        "alpha": 0.1,
+        "bias_penalty": 0.0,
+        "components": 32,
+        "geometry": "identity",
+        "mode": "pls"
+      },
+      "frozen_mean": 0.2831333390810988,
+      "linear": 0.2415911779320648,
+      "curvature": 0.34782366608830506,
+      "optimal_strength": 0.34728973541255515,
+      "posthoc_upper_bound_mean_r2": 0.3250844072121159,
+      "reconstructed_half": 0.3169730115250549,
+      "reconstructed_full": 0.17690085092485852
+    }
+  ],
+  "input_ledger_events": {
+    "studies\\calibnext-map-initial\\results\\experiments.jsonl": 16,
+    "studies\\calibnext\\results\\experiments.jsonl": 60
+  }
+}

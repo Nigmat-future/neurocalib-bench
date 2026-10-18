@@ -17,6 +17,19 @@ operation before data access. Replay also rechecks bindings after computation.
 No final recording was accessed. The prior eight attempts remain explicitly
 included in this revision's exposure counts.
 
+The next two completed batches also failed: 18 SIMPLS configurations reached
+at most 0.3406654938945408, and 12 encoding configurations at most
+0.311715247169612. No final configuration was frozen. The source-compatible
+encoding construction is mathematically checked; its poor development results
+show that this is insufficient to guarantee useful adaptation.
+
+The [post-hoc shrinkage diagnostic](results/shrinkage_bounds.json) reconstructs
+the exact R² quadratic for each fixed linear correction using frozen, half, and
+full-strength results. Even the best continuous strength cannot exceed 0.350865
+for the four tested MAP heads or 0.343767 for the nine tested SIMPLS heads. These
+are analytical development bounds, not newly scored candidates, and do not bound
+other priors or algorithms.
+
 ## Why the earlier methods failed
 
 The [reproducible diagnostic](results/diagnosis.json) supports several mechanisms,
