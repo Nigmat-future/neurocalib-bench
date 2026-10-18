@@ -1,0 +1,6 @@
+{
+  "mode": "residual",
+  "alpha": 0.1,
+  "strength": 1.0,
+  "components": 8
+}
