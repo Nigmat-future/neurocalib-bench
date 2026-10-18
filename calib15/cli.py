@@ -11,7 +11,7 @@ from typing import Literal, assert_never
 from pydantic import ValidationError
 
 from calib15.evaluation import tune_source
-from calib15.io import download_recording, read_study, results_dir
+from calib15.io import download_recording, read_study
 from calib15.research import final, freeze, gate, reproduce, run_trial
 from calib15.schema import Calibration, Record
 from neurocalib.data import DataError
@@ -22,7 +22,9 @@ class Arguments(Record):
     """Parse argparse's untyped boundary once."""
 
     root: Path
-    command: Literal["download", "prepare", "trial", "gate", "freeze", "final", "reproduce"]
+    command: Literal[
+        "download", "prepare", "trial", "gate", "freeze", "final", "reproduce", "report"
+    ]
     phase: Literal["development", "all"] = "development"
     config: Path | None = None
     hypothesis: str = ""
@@ -42,9 +44,6 @@ def _execute(args: Arguments) -> None:
         case "download":
             _download(root, args.phase)
         case "prepare":
-            if (results_dir(root) / "experiments.jsonl").exists():
-                message = "source preparation is immutable after the first target trial"
-                raise ResearchError(message)
             print(tune_source(root).model_dump_json(indent=2))
         case "trial":
             if args.config is None:
@@ -60,6 +59,10 @@ def _execute(args: Arguments) -> None:
             print(final(root))
         case "reproduce":
             print(reproduce(root))
+        case "report":
+            from calib15.report import render  # noqa: PLC0415
+
+            print(render(root))
         case unreachable:
             assert_never(unreachable)
 
@@ -76,7 +79,7 @@ def main() -> int:
     _ = trial.add_argument("--config", type=Path, required=True)
     _ = trial.add_argument("--hypothesis", required=True)
     _ = trial.add_argument("--kind", choices=("baseline", "candidate"), default="candidate")
-    for command in ("gate", "freeze", "final", "reproduce"):
+    for command in ("gate", "freeze", "final", "reproduce", "report"):
         _ = commands.add_parser(command)
     try:
         _execute(Arguments.model_validate(vars(parser.parse_args())))

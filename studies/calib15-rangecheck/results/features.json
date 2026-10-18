@@ -1,0 +1,5 @@
+{
+  "lags": 10,
+  "smoothing_seconds": 0.06,
+  "source_alpha": 10.0
+}

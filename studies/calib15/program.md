@@ -6,9 +6,9 @@ budget, followed by untouched two-animal validation only if development passes.
 
 1. Download and verify Indy source/development files only. Complete synthetic
    correctness and lifecycle checks before the first real target trial.
-2. Run the fixed eighteen-setting source-only feature/penalty comparison. Retain
+2. Run the fixed thirty-setting source-only feature/penalty comparison. Retain
    all scores and the chosen features. Do not choose features using target labels.
-3. Run the eight predeclared baseline settings, preserving every full result.
+3. Run the 24 predeclared baseline settings, preserving every full result.
    Identify the best target-only and residual configurations using development.
 4. Propose one candidate and state its hypothesis and predicted failure. Start
    with a six-parameter affine correction and a modest source PCA residual model.
@@ -34,3 +34,9 @@ budget, followed by untouched two-animal validation only if development passes.
 The benchmark requires no language-model API. The external coding agent supplies
 the hypotheses and commands; the repository supplies the bounded, inspectable
 experiment loop. A fixed baseline sweep is identified as a sweep.
+
+This amended study follows the preserved initial range diagnostic at commit
+`28145bb`. Broader source/calibration penalties and residual update strengths were
+declared before its first candidate; development evidence informed the amendment.
+Do not mix that earlier run's scores into this ledger, and do not use final data
+to make another such revision.

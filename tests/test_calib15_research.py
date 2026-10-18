@@ -7,6 +7,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from calib15 import research
+from calib15.records import BASELINES
 from calib15.schema import Calibration, Features, Row
 
 
@@ -70,14 +71,8 @@ class Calib15ResearchTests(unittest.TestCase):
         )
 
     def baselines(self):
-        for mode in ("target", "residual"):
-            for alpha in (0.01, 0.1, 1.0, 10.0):
-                research.run_trial(
-                    self.root,
-                    Calibration(mode=mode, alpha=alpha),
-                    "Predeclared baseline",
-                    "baseline",
-                )
+        for config in BASELINES:
+            research.run_trial(self.root, config, "Predeclared baseline", "baseline")
 
     def test_failed_gate_blocks_freeze_and_test_access(self):
         # Given: all strong baselines and a candidate below the declared margin.
@@ -106,7 +101,7 @@ class Calib15ResearchTests(unittest.TestCase):
             repeated = research.run_trial(self.root, config, "Repeated idea", "candidate")
         # Then: only the original attempt is counted and evaluated.
         self.assertEqual(original, repeated)
-        self.assertEqual(evaluator.call_count, 9)
+        self.assertEqual(evaluator.call_count, len(BASELINES) + 1)
         self.assertEqual(research.gate(self.root).attempted_candidates, 1)
 
     def test_code_tamper_blocks_trial_reuse(self):
@@ -148,7 +143,7 @@ class Calib15ResearchTests(unittest.TestCase):
         return research.freeze(self.root)
 
     def test_candidate_limit_excludes_baseline_sweep(self):
-        # Given: eight baseline configurations and twelve distinct candidate attempts.
+        # Given: all strong baseline configurations and twelve distinct candidate attempts.
         with patch("calib15.research.evaluate", side_effect=self.evaluate) as evaluator:
             self.baselines()
             for number in range(1, 13):
@@ -162,7 +157,7 @@ class Calib15ResearchTests(unittest.TestCase):
             with self.assertRaisesRegex(research.ResearchError, "budget"):
                 research.run_trial(self.root, Calibration(mode="subspace"), "Extra", "candidate")
         # Then: baseline comparisons did not spend the twelve-candidate allowance.
-        self.assertEqual(evaluator.call_count, 20)
+        self.assertEqual(evaluator.call_count, len(BASELINES) + 12)
 
     def test_crash_is_logged_and_cannot_be_restarted(self):
         # Given: completed strong baselines and a candidate that crashes.
@@ -247,8 +242,8 @@ class Calib15ResearchTests(unittest.TestCase):
         # When: completed development configurations are reproduced.
         with patch("calib15.replay.evaluate", side_effect=self.evaluate) as evaluator:
             output = research.reproduce(self.root)
-        # Then: only the nine development experiments rerun and test access stays sealed.
-        self.assertEqual(evaluator.call_count, 9)
+        # Then: every completed development experiment reruns while test access stays sealed.
+        self.assertEqual(evaluator.call_count, len(BASELINES) + 1)
         self.assertTrue(json.loads(output.read_text(encoding="utf-8"))["matches_original"])
         self.assertFalse((self.results / "final.started.json").exists())
 
@@ -265,6 +260,25 @@ class Calib15ResearchTests(unittest.TestCase):
         with self.assertRaisesRegex(research.ResearchError, "Evaluation cells"):
             research.final(self.root)
         # Then: a missing day/budget cannot be accepted as a complete final result.
+
+    def test_original_eight_baselines_no_longer_authorize_candidates(self):
+        # Given: only the initial regularization range, with no residual shrinkage sweep.
+        with patch("calib15.research.evaluate", side_effect=self.evaluate):
+            for mode in ("target", "residual"):
+                for alpha in (0.01, 0.1, 1.0, 10.0):
+                    research.run_trial(
+                        self.root,
+                        Calibration(mode=mode, alpha=alpha),
+                        "Initial range only",
+                        "baseline",
+                    )
+            # When: a candidate attempts to bypass the expanded strong comparison.
+            with self.assertRaisesRegex(research.ResearchError, "every strong baseline"):
+                research.run_trial(self.root, Calibration(mode="affine"), "Too early", "candidate")
+        # Then: all 24 declared comparisons, including ridge and shrinkage extremes, are needed.
+        self.assertEqual(len(BASELINES), 24)
+        self.assertIn(Calibration(mode="target", alpha=1000.0), BASELINES)
+        self.assertIn(Calibration(mode="residual", alpha=1000.0, strength=0.25), BASELINES)
 
 
 if __name__ == "__main__":

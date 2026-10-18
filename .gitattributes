@@ -2,4 +2,5 @@
 # Evidence hashes bind bytes, including the writer's original line endings.
 results/** -text whitespace=cr-at-eol
 studies/calib15/results/** -text whitespace=cr-at-eol
+studies/calib15-rangecheck/results/** -text whitespace=cr-at-eol
 *.png binary

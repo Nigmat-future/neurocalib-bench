@@ -168,7 +168,7 @@ def decide(root: Path) -> Gate:
     attempted = len({event.trial_id for event in events if event.kind == "candidate"})
     decision = Gate(
         passed=False,
-        reason="Complete all eight baselines and at least one candidate",
+        reason=f"Complete all {len(BASELINES)} declared baselines and at least one candidate",
         inputs=fingerprints(root),
         ledger_sha256=file_digest(ledger) if events else "",
         attempted_candidates=attempted,

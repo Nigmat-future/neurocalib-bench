@@ -186,7 +186,7 @@ def evaluate(
 
 
 def tune_source(root: Path) -> Features:
-    """Select eighteen fixed configurations by leave-one-Indy-source-day-out R²."""
+    """Select thirty fixed configurations by leave-one-Indy-source-day-out R²."""
     output = results_dir(root)
     if any(
         (output / name).exists()
@@ -215,7 +215,7 @@ def tune_source(root: Path) -> Features:
         for smoothing in (0.0, 0.06):
             geometry = Features(lags=lags, smoothing_seconds=smoothing)
             days = [build(session, channels, geometry, study.bin_seconds) for session in sessions]
-            for alpha in (0.1, 1.0, 10.0):
+            for alpha in (0.1, 1.0, 10.0, 100.0, 1000.0):
                 candidate = geometry.model_copy(update={"source_alpha": alpha})
                 scores: list[float] = []
                 for index in range(len(days)):

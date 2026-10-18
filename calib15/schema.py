@@ -34,7 +34,7 @@ class Recording(Record):
 class Study(Record):
     """Pinned chronological splits, information budget, and development gate."""
 
-    version: Literal["calib15-v1"] = "calib15-v1"
+    version: Literal["calib15-v2"] = "calib15-v2"
     record_url: Literal["https://zenodo.org/records/3854034"]
     bin_seconds: float = Field(default=0.02, ge=0.02, le=0.02)
     score_start_seconds: float = Field(default=30.5, ge=30.5, le=30.5)

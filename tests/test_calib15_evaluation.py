@@ -203,9 +203,13 @@ class EvaluationChecks(unittest.TestCase):
             saved = Features.model_validate_json(
                 (root / "studies/calib15/results/features.json").read_bytes()
             )
-        # Then all eighteen candidates have both folds, without opening any target file.
+        # Then all thirty candidates have both folds, without opening any target file.
         self.assertEqual(chosen, saved)
-        self.assertEqual(len(evidence["trials"]), 18)
+        self.assertEqual(len(evidence["trials"]), 30)
+        self.assertEqual(
+            {trial["features"]["source_alpha"] for trial in evidence["trials"]},
+            {0.1, 1.0, 10.0, 100.0, 1000.0},
+        )
         self.assertTrue(all(len(trial["scores"]) == 2 for trial in evidence["trials"]))
         self.assertEqual(
             {call.args[0].name for call in self.loader.call_args_list},

@@ -8,6 +8,22 @@ This is an offline, one-animal pilot using public recordings. Its contribution i
 
 中文概述：固定新日可见数据与校准时间，比较简单适应方法；先冻结协议与配置，再评估保留测试日。保留无收益和负迁移结果。
 
+## Fifteen-second supervised calibration study
+
+The [second study](studies/calib15/README.md) compares 24 tuned supervised baselines
+with agent-proposed calibration models under the same 15-second labeled prefix.
+It has nine new development dates and twelve sealed final dates across two animals.
+A +0.02 development R² gain and no additional negative-transfer days are required
+before final access. The study documents a pre-candidate regularization-range
+amendment and preserves its [initial range diagnostic](studies/calib15-rangecheck/README.md).
+
+The completed run tried eight candidates. Best supervised baseline R² was
+**0.350109**, versus **0.342235** for the best candidate: **ΔR² = -0.007874**.
+The development gate failed, so no final scheme was frozen and both animals'
+holdout targets remain unopened. [Inspect the complete study evidence](studies/calib15/README.md).
+
+The original pilot's locked results follow below.
+
 ## Locked pilot results
 
 Eight development candidates were recorded before freezing the final comparison. The selected configuration was strongly shrunk CORAL: `alpha=1`, `lags=10`, `strength=0.25`, `covariance_shrinkage=0.9`. Its development objective was **0.396156956**, compared with **0.383974819** for default frozen ridge.

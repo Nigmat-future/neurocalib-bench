@@ -69,6 +69,46 @@
     {
       "features": {
         "lags": 1,
+        "smoothing_seconds": 0.0,
+        "source_alpha": 100.0
+      },
+      "train_sessions": [
+        "indy_20160930_05",
+        "indy_20161005_06"
+      ],
+      "score_sessions": [
+        "indy_20161005_06",
+        "indy_20160930_05"
+      ],
+      "scores": [
+        0.0017480389266029683,
+        0.001858937199569699
+      ],
+      "mean_r2": 0.0018034880630863337
+    },
+    {
+      "features": {
+        "lags": 1,
+        "smoothing_seconds": 0.0,
+        "source_alpha": 1000.0
+      },
+      "train_sessions": [
+        "indy_20160930_05",
+        "indy_20161005_06"
+      ],
+      "score_sessions": [
+        "indy_20161005_06",
+        "indy_20160930_05"
+      ],
+      "scores": [
+        0.0001778539030259374,
+        0.00018903880741844015
+      ],
+      "mean_r2": 0.00018344635522218877
+    },
+    {
+      "features": {
+        "lags": 1,
         "smoothing_seconds": 0.06,
         "source_alpha": 0.1
       },
@@ -125,6 +165,46 @@
         -0.004711159010612143
       ],
       "mean_r2": 0.026883241858873475
+    },
+    {
+      "features": {
+        "lags": 1,
+        "smoothing_seconds": 0.06,
+        "source_alpha": 100.0
+      },
+      "train_sessions": [
+        "indy_20160930_05",
+        "indy_20161005_06"
+      ],
+      "score_sessions": [
+        "indy_20161005_06",
+        "indy_20160930_05"
+      ],
+      "scores": [
+        0.007719874286085726,
+        0.00863399055482289
+      ],
+      "mean_r2": 0.008176932420454308
+    },
+    {
+      "features": {
+        "lags": 1,
+        "smoothing_seconds": 0.06,
+        "source_alpha": 1000.0
+      },
+      "train_sessions": [
+        "indy_20160930_05",
+        "indy_20161005_06"
+      ],
+      "score_sessions": [
+        "indy_20161005_06",
+        "indy_20160930_05"
+      ],
+      "scores": [
+        0.0008038216682912935,
+        0.0009939419191786758
+      ],
+      "mean_r2": 0.0008988817937349847
     },
     {
       "features": {
@@ -189,6 +269,46 @@
     {
       "features": {
         "lags": 5,
+        "smoothing_seconds": 0.0,
+        "source_alpha": 100.0
+      },
+      "train_sessions": [
+        "indy_20160930_05",
+        "indy_20161005_06"
+      ],
+      "score_sessions": [
+        "indy_20161005_06",
+        "indy_20160930_05"
+      ],
+      "scores": [
+        0.011155911091831394,
+        0.012311154875828567
+      ],
+      "mean_r2": 0.01173353298382998
+    },
+    {
+      "features": {
+        "lags": 5,
+        "smoothing_seconds": 0.0,
+        "source_alpha": 1000.0
+      },
+      "train_sessions": [
+        "indy_20160930_05",
+        "indy_20161005_06"
+      ],
+      "score_sessions": [
+        "indy_20161005_06",
+        "indy_20160930_05"
+      ],
+      "scores": [
+        0.0011791381925259081,
+        0.0013956878490554159
+      ],
+      "mean_r2": 0.001287413020790662
+    },
+    {
+      "features": {
+        "lags": 5,
         "smoothing_seconds": 0.06,
         "source_alpha": 0.1
       },
@@ -245,6 +365,46 @@
         -0.12698358342684257
       ],
       "mean_r2": 0.026137452091445273
+    },
+    {
+      "features": {
+        "lags": 5,
+        "smoothing_seconds": 0.06,
+        "source_alpha": 100.0
+      },
+      "train_sessions": [
+        "indy_20160930_05",
+        "indy_20161005_06"
+      ],
+      "score_sessions": [
+        "indy_20161005_06",
+        "indy_20160930_05"
+      ],
+      "scores": [
+        0.041251566196735256,
+        0.03279997638536536
+      ],
+      "mean_r2": 0.03702577129105031
+    },
+    {
+      "features": {
+        "lags": 5,
+        "smoothing_seconds": 0.06,
+        "source_alpha": 1000.0
+      },
+      "train_sessions": [
+        "indy_20160930_05",
+        "indy_20161005_06"
+      ],
+      "score_sessions": [
+        "indy_20161005_06",
+        "indy_20160930_05"
+      ],
+      "scores": [
+        0.004804289020297503,
+        0.006344638260095459
+      ],
+      "mean_r2": 0.005574463640196481
     },
     {
       "features": {
@@ -309,6 +469,46 @@
     {
       "features": {
         "lags": 10,
+        "smoothing_seconds": 0.0,
+        "source_alpha": 100.0
+      },
+      "train_sessions": [
+        "indy_20160930_05",
+        "indy_20161005_06"
+      ],
+      "score_sessions": [
+        "indy_20161005_06",
+        "indy_20160930_05"
+      ],
+      "scores": [
+        0.027254289650980645,
+        0.032886614489738175
+      ],
+      "mean_r2": 0.03007045207035941
+    },
+    {
+      "features": {
+        "lags": 10,
+        "smoothing_seconds": 0.0,
+        "source_alpha": 1000.0
+      },
+      "train_sessions": [
+        "indy_20160930_05",
+        "indy_20161005_06"
+      ],
+      "score_sessions": [
+        "indy_20161005_06",
+        "indy_20160930_05"
+      ],
+      "scores": [
+        0.0029773384332050234,
+        0.0038234392980748266
+      ],
+      "mean_r2": 0.003400388865639925
+    },
+    {
+      "features": {
+        "lags": 10,
         "smoothing_seconds": 0.06,
         "source_alpha": 0.1
       },
@@ -365,6 +565,46 @@
         0.2344625222943023
       ],
       "mean_r2": 0.2367371247095809
+    },
+    {
+      "features": {
+        "lags": 10,
+        "smoothing_seconds": 0.06,
+        "source_alpha": 100.0
+      },
+      "train_sessions": [
+        "indy_20160930_05",
+        "indy_20161005_06"
+      ],
+      "score_sessions": [
+        "indy_20161005_06",
+        "indy_20160930_05"
+      ],
+      "scores": [
+        0.08149158841460208,
+        0.07635855587143114
+      ],
+      "mean_r2": 0.07892507214301661
+    },
+    {
+      "features": {
+        "lags": 10,
+        "smoothing_seconds": 0.06,
+        "source_alpha": 1000.0
+      },
+      "train_sessions": [
+        "indy_20160930_05",
+        "indy_20161005_06"
+      ],
+      "score_sessions": [
+        "indy_20161005_06",
+        "indy_20160930_05"
+      ],
+      "scores": [
+        0.010359720961938712,
+        0.014251643475281572
+      ],
+      "mean_r2": 0.012305682218610142
     }
   ]
 }

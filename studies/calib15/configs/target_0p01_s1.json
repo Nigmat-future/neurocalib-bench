@@ -1,0 +1,6 @@
+{
+  "mode": "target",
+  "alpha": 0.01,
+  "strength": 1.0,
+  "components": 8
+}

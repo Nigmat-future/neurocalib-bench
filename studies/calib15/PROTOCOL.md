@@ -6,6 +6,19 @@ dates is a final target in this study. All new results must be interpreted as
 offline natural-movement decoding, not clinical intention decoding or closed-loop
 BCI performance. The experiment is allowed to stop without opening the holdout.
 
+### Disclosed pre-candidate amendment
+
+An initial range diagnostic (`calib15-v1`, archived under `calib15-rangecheck`,
+historical source commit `28145bb`) ran 18 source settings and eight development
+baselines. It ran no candidates and accessed no final targets. Its highest source
+penalty and residual penalty both won at the original upper bound of 10. This
+amended `calib15-v2` expands those ranges and gives the residual baseline the same
+update-shrinkage opportunity as candidates. Its ledger starts empty; no previous
+scores are relabelled as amended results. The data split, budget, gate, candidate
+limit and untouched final dates are unchanged. The amendment is informed by
+development/source evidence and is not a pristine preregistration before any
+development access. Final targets remain independent of that evidence.
+
 ## Data and access
 
 `protocol.json` pins the official Zenodo v2 file names, byte sizes and MD5 hashes.
@@ -32,8 +45,9 @@ source model; hyperparameters remain the values selected on Indy.
 
 Select common features using only the two Indy source recordings. Evaluate the
 full predeclared Cartesian grid: history bins {1, 5, 10}, causal exponential
-smoothing time constant {0, 0.06} seconds, and source ridge penalty {0.1, 1, 10}.
-These are 18 fixed settings, each evaluated by leaving one source day out and
+smoothing time constant {0, 0.06} seconds, and source ridge penalty
+{0.1, 1, 10, 100, 1000}.
+These are 30 fixed settings, each evaluated by leaving one source day out and
 training on the other. Score the held-out source day at times >= 30.5 seconds.
 Choose the highest arithmetic mean of the two macro-axis R² values; break ties
 by grid order. Retain every score in `results/source_tuning.json`, and the chosen
@@ -63,15 +77,16 @@ A negative R² decoding failure and negative transfer are different outcomes.
 ## Strong baselines and candidate search
 
 Tune both strong supervised baseline families on the nine Indy development
-targets, with four fixed penalties {0.01, 0.1, 1, 10} each:
+targets, with six fixed penalties {0.01, 0.1, 1, 10, 100, 1000} each:
 
 1. Target-only ridge, trained independently on the allowed prefix.
-2. Full residual ridge, correcting source predictions from the same prefix.
+2. Full residual ridge, correcting source predictions from the same prefix,
+   crossed with update strengths {0.25, 0.5, 1}.
 
 Choose each family's best by mean development R² at 15 seconds. Choose the
 strongest of those two configurations by that same development score. This
 baseline remains the primary comparator on every final animal and budget; never
-reselect a baseline using test scores. The eight fixed baseline evaluations are
+reselect a baseline using test scores. The 24 fixed baseline evaluations are
 all recorded, and are separate from the maximum of 12 candidate attempts.
 
 The agent-guided candidate surface contains only:
@@ -100,7 +115,7 @@ they cannot silently replace the inputs beneath accumulated scores.
 
 ## Development gate, freeze and final confirmation
 
-The gate requires all eight baseline configurations and at least one completed
+The gate requires all 24 baseline configurations and at least one completed
 candidate. Select the highest-scoring candidate that satisfies both conditions:
 
 1. Mean development R² minus the preselected strongest supervised baseline is

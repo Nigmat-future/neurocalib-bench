@@ -1,0 +1,19 @@
+{
+  "version": "calib15-v2",
+  "status": "stopped_development_gate_failed",
+  "baseline_configurations": 24,
+  "attempted_candidates": 8,
+  "maximum_candidates": 12,
+  "reason": "Eight sequential hypotheses tested output correction, source subspace width, regularization and update strength. The best candidate trails the tuned supervised baseline; further expansion is not supported by these results.",
+  "best_candidate_mean_r2": 0.34223534350066637,
+  "baseline_mean_r2": 0.35010946184569786,
+  "delta": -0.007874118345031489,
+  "required_delta": 0.02,
+  "candidate_negative_transfer_days": 1,
+  "baseline_negative_transfer_days": 1,
+  "development_days": 9,
+  "frozen_created": false,
+  "final_started": false,
+  "holdout_behavior_accessed": false,
+  "loco_recordings_downloaded": 0
+}

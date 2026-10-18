@@ -9,10 +9,13 @@ from calib15.io import read_study, results_dir, study_dir
 from calib15.schema import Calibration, Features, Row
 from neurocalib.ledger import Record, ResearchError, Started, digest, environment, file_digest
 
+BASELINE_ALPHAS: Final = (0.01, 0.1, 1.0, 10.0, 100.0, 1000.0)
 BASELINES: Final = tuple(
-    Calibration(mode=mode, alpha=alpha)
-    for mode in ("target", "residual")
-    for alpha in (0.01, 0.1, 1.0, 10.0)
+    Calibration(mode="target", alpha=alpha) for alpha in BASELINE_ALPHAS
+) + tuple(
+    Calibration(mode="residual", alpha=alpha, strength=strength)
+    for alpha in BASELINE_ALPHAS
+    for strength in (0.25, 0.5, 1.0)
 )
 EPSILON: Final = 1e-12
 DEVELOPMENT_DAYS: Final = 9

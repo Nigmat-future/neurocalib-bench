@@ -1,0 +1,199 @@
+{
+  "version": "calib15-v1",
+  "record_url": "https://zenodo.org/records/3854034",
+  "bin_seconds": 0.02,
+  "score_start_seconds": 30.5,
+  "primary_budget_seconds": 15,
+  "budgets_seconds": [
+    0,
+    5,
+    15,
+    30
+  ],
+  "max_candidates": 12,
+  "gate_delta": 0.02,
+  "files": [
+    {
+      "name": "indy_20160930_05.mat",
+      "animal": "indy",
+      "role": "source",
+      "size": 100720287,
+      "md5": "30a8dc9229306d81288e8ae39c9e4942"
+    },
+    {
+      "name": "indy_20161005_06.mat",
+      "animal": "indy",
+      "role": "source",
+      "size": 83957398,
+      "md5": "5ea300952642e0fc54245144499db9bb"
+    },
+    {
+      "name": "indy_20161011_03.mat",
+      "animal": "indy",
+      "role": "development",
+      "size": 158364536,
+      "md5": "90dc409a749b3c0da72b901d2b5d106e"
+    },
+    {
+      "name": "indy_20161014_04.mat",
+      "animal": "indy",
+      "role": "development",
+      "size": 139255441,
+      "md5": "d8cf4a2866f56b4c46513ff9fe5ddaf4"
+    },
+    {
+      "name": "indy_20161017_02.mat",
+      "animal": "indy",
+      "role": "development",
+      "size": 129909400,
+      "md5": "7a1bff8e115e7e58eae7cbc63a72ed98"
+    },
+    {
+      "name": "indy_20161024_03.mat",
+      "animal": "indy",
+      "role": "development",
+      "size": 126724362,
+      "md5": "cc8e198ae6330338af584d9e1204800d"
+    },
+    {
+      "name": "indy_20161025_04.mat",
+      "animal": "indy",
+      "role": "development",
+      "size": 110337762,
+      "md5": "13589b4c7cfad158e5a1aebd2d71f6e3"
+    },
+    {
+      "name": "indy_20161026_03.mat",
+      "animal": "indy",
+      "role": "development",
+      "size": 111734393,
+      "md5": "3b5f2c35eecc5175c526869d50f2eada"
+    },
+    {
+      "name": "indy_20161027_03.mat",
+      "animal": "indy",
+      "role": "development",
+      "size": 128150885,
+      "md5": "bae4f5b76c50e2e2aed775e6d2482fc3"
+    },
+    {
+      "name": "indy_20161206_02.mat",
+      "animal": "indy",
+      "role": "development",
+      "size": 177084923,
+      "md5": "ce33b61b7870e635bea5cab7601d27c3"
+    },
+    {
+      "name": "indy_20161207_02.mat",
+      "animal": "indy",
+      "role": "development",
+      "size": 106152538,
+      "md5": "b984a86fd30417fa8301136102caf2ad"
+    },
+    {
+      "name": "indy_20161220_02.mat",
+      "animal": "indy",
+      "role": "test",
+      "size": 112738678,
+      "md5": "ad57bf06ac505e4d70ae7100c721b8aa"
+    },
+    {
+      "name": "indy_20170123_02.mat",
+      "animal": "indy",
+      "role": "test",
+      "size": 139712755,
+      "md5": "a3ce046e0b67b489d19e34a31232d512"
+    },
+    {
+      "name": "indy_20170124_01.mat",
+      "animal": "indy",
+      "role": "test",
+      "size": 152016126,
+      "md5": "ea1721fefe443420a356b4f93f5bb731"
+    },
+    {
+      "name": "indy_20170127_03.mat",
+      "animal": "indy",
+      "role": "test",
+      "size": 171805910,
+      "md5": "3d77802c59e3e4ebe6778326cfc68c0a"
+    },
+    {
+      "name": "indy_20170131_02.mat",
+      "animal": "indy",
+      "role": "test",
+      "size": 208792806,
+      "md5": "2790b1c869564afaa7772dbf9e42d784"
+    },
+    {
+      "name": "loco_20170210_03.mat",
+      "animal": "loco",
+      "role": "source",
+      "size": 1141201538,
+      "md5": "4cae63b58c4cb9c8abd44929216c703b"
+    },
+    {
+      "name": "loco_20170213_02.mat",
+      "animal": "loco",
+      "role": "source",
+      "size": 1300238672,
+      "md5": "e051a2ddfeb67f31395a8f934b6a04bf"
+    },
+    {
+      "name": "loco_20170214_02.mat",
+      "animal": "loco",
+      "role": "source",
+      "size": 1649244107,
+      "md5": "3f410a56706563b4ce5584c5b5c83cf2"
+    },
+    {
+      "name": "loco_20170215_02.mat",
+      "animal": "loco",
+      "role": "test",
+      "size": 779509843,
+      "md5": "739b70762d838f3a1f358733c426bb02"
+    },
+    {
+      "name": "loco_20170216_02.mat",
+      "animal": "loco",
+      "role": "test",
+      "size": 1341792566,
+      "md5": "ec480664e7da8c6be0ba8ee709eecf8b"
+    },
+    {
+      "name": "loco_20170217_02.mat",
+      "animal": "loco",
+      "role": "test",
+      "size": 1156234641,
+      "md5": "bba2889a6ea20e74c8a9054e97a80dd4"
+    },
+    {
+      "name": "loco_20170227_04.mat",
+      "animal": "loco",
+      "role": "test",
+      "size": 1433235546,
+      "md5": "47dc8d717ac4e46af31a696422d83ed7"
+    },
+    {
+      "name": "loco_20170228_02.mat",
+      "animal": "loco",
+      "role": "test",
+      "size": 1599747516,
+      "md5": "79d99cd6b8db25ba0420a906350a44ff"
+    },
+    {
+      "name": "loco_20170301_05.mat",
+      "animal": "loco",
+      "role": "test",
+      "size": 902210274,
+      "md5": "47342da09f9c950050c9213c3df38ea3"
+    },
+    {
+      "name": "loco_20170302_02.mat",
+      "animal": "loco",
+      "role": "test",
+      "size": 1963627958,
+      "md5": "ccbba097e02fa300ab5a87b27702f337"
+    }
+  ]
+}
