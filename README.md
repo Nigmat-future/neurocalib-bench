@@ -2,9 +2,9 @@
 
 **Cross-day neural decoding under fixed calibration budgets.**
 
-A small, reproducible study of cross-day intracortical velocity decoding. Compare frozen ridge regression with mean matching, variance matching, regularized covariance alignment, and supervised readout correction under **0, 5, 15, and 30 seconds** of new-day data.
+A reproducible benchmark of cross-day intracortical velocity decoding, with an original pilot and an ongoing supervised calibration study. Compare frozen ridge regression, distribution alignment, and supervised readout correction under **0, 5, 15, and 30 seconds** of new-day data.
 
-This is an offline, one-animal pilot using public recordings. Its contribution is a controlled experiment and inspectable evidence, with development separated from final testing. It does not claim a new state of the art, clinical validation, or Neuralink replication.
+The experiments use public recordings and offline decoding. The original pilot reports two final-test days from one animal; the later study reserves twelve different final dates across two animals. The contribution is controlled experiments and inspectable evidence, with development separated from final testing. No new state of the art, clinical validation, or Neuralink replication is claimed.
 
 中文概述：固定新日可见数据与校准时间，比较简单适应方法；先冻结协议与配置，再评估保留测试日。保留无收益和负迁移结果。
 
@@ -19,19 +19,40 @@ amendment and preserves its [initial range diagnostic](studies/calib15-rangechec
 
 The completed run tried eight candidates. Best supervised baseline R² was
 **0.350109**, versus **0.342235** for the best candidate: **ΔR² = -0.007874**.
-The development gate failed, so no final scheme was frozen and both animals'
-holdout targets remain unopened. [Inspect the complete study evidence](studies/calib15/README.md).
+This phase failed the development gate and did not freeze a candidate or access
+the final recordings. [Inspect its complete evidence](studies/calib15/README.md).
 All 32 configurations reproduced from a fresh Git checkout to `1e-7`; 61 tests and
 [Ubuntu/Windows CI](https://github.com/Nigmat-future/neurocalib-bench/actions/runs/39146578808)
 passed.
 
-The [continued study](studies/calibnext/README.md) keeps the same threshold and
-sealed final dates. It diagnoses limited correction spaces, strongly correlated
-prefix samples, and mean drift; then tests supervised SIMPLS and source-anchored
-encoding alongside MAP priors. Eight additional MAP configurations have failed
-and numerically reproduced; their [historical archive](studies/calibnext-map-initial/README.md)
-is preserved. All repeated development exposure is disclosed. No final success
-is claimed before the gate and independent two-animal validation.
+The [continued study](studies/calibnext/README.md) retains the same reference,
+gate, nine development dates, and sealed final dates. Eight MAP attempts reached
+at most **0.343804** mean development R². A subsequent 18 SIMPLS attempts reached
+**0.340665**, and 12 source-anchored encoding attempts reached **0.311715**.
+All failed the development gate. The [eight-MAP archive](studies/calibnext-map-initial/README.md)
+and [30-attempt SIMPLS/encoding archive](studies/calibnext-linear-encoding/README.md)
+preserve their original evidence and source commits. The latter reproduced all
+30 configurations and 270 daily rows from a fresh checkout:
+[`matches_original: true`](studies/calibnext-linear-encoding/results/reproduced/development.json).
+
+The current version supports separately hashed, single-file candidate methods.
+Nine task-residual configurations reached **0.350887** mean development R²;
+16 shared-channel configurations reached **0.369517**, with two negative-transfer
+days. Both batches failed the fixed gate. The first
+[`covered_gain` candidate](studies/calibnext/results/decision.json) then passed:
+**R² 0.383216**, **ΔR² +0.033107**, and **one of nine** days below frozen ridge,
+matching the reference's harm count. Its prefix-only coverage guard retains the
+source decoder when labeled motion has insufficient directional coverage.
+
+Selection stopped immediately. The second declared coverage candidate and the
+implemented temporal/blocked residual methods remain unscored. The same dates
+have now informed **32 original + 38 archived + 26 current = 96 configurations**,
+including one baseline-equivalent control. This is 72 counted candidate
+attempts, including that control, plus **two separately disclosed post-hoc
+diagnostic configurations**. Strength-oracle calculations only reanalyze saved
+results. This repeated development selection is not independent validation.
+At selection, the supervised studies had made **zero final accesses**;
+the frozen two-animal evaluation is the next stage. No final success is claimed.
 
 The original pilot's locked results follow below.
 
@@ -65,7 +86,7 @@ These are two recording days from one animal. They support a descriptive pilot r
 
 Inspect the [full final JSON](results/final/report.json), [final CSV](results/final/report.csv), [frozen configuration and hashes](results/frozen.json), [eight-candidate summary](results/search_summary.csv), and [complete trial ledger](results/experiments.jsonl). Raw recordings are excluded from the repository.
 
-## Reproduce the experiment
+## Reproduce the original pilot
 
 Read the [protocol](PROTOCOL.md) and inspect the [recording manifest](protocol.json). Source training uses two recordings; two more support development; two later recordings are reserved for final evaluation. Every method is scored from 30.5 seconds onward on identical bins.
 
@@ -89,15 +110,23 @@ Development checks use the same locked environment:
 ```sh
 uv run --no-sync ruff check .
 uv run --no-sync ruff format --check .
-uv run --no-sync basedpyright
+uv run --no-sync basedpyright neurocalib calib15 calibnext methods
 uv run --no-sync python -m unittest discover -s tests -v
 ```
 
-Local verification passed **23 unittest tests**, lint, formatting, and type checks. [Ubuntu and Windows CI passed on the initial implementation](https://github.com/Nigmat-future/neurocalib-bench/actions/runs/39142899064). Tests use synthetic HDF5 fixtures and do not download the research recordings. Passing those tests establishes software checks, not evidence for the neuroscience hypothesis.
+The current continuation implementation passed **142 unittest tests**, lint,
+formatting, and type checks before its new batches. The core workflow at
+`d4be944` passed [Ubuntu/Windows CI](https://github.com/Nigmat-future/neurocalib-bench/actions/runs/39159176551).
+[Ubuntu and Windows CI also passed
+on the initial pilot implementation](https://github.com/Nigmat-future/neurocalib-bench/actions/runs/39142899064).
+Tests use synthetic HDF5 fixtures and do not download the research recordings.
+Passing those tests establishes software checks, not evidence for the neuroscience
+hypothesis. For the active calibration study and its historical source checkouts,
+use the [continuation reproduction instructions](studies/calibnext/README.md#run-and-reproduce).
 
 Full numerical reproduction passed for all seven frozen comparisons: [`matches: true`](results/reproduced/report.json), with relative and absolute tolerance `1e-7`. A fresh Git checkout also reproduced all seven comparisons, verifying that the committed files preserve the frozen evidence hashes.
 
-## What is being compared
+## Original pilot comparisons
 
 | Method | Information from the new-day prefix |
 | --- | --- |
@@ -112,7 +141,7 @@ All budgets measure elapsed recording time. Supervised correction receives label
 
 Inputs are M1 channel spike counts in 20 ms bins with at most 400 ms of causal history. Target velocity is in mm/s. A source-only channel-name set is reused across days, with missing channels reported and zero-filled. Prediction follows prefix fitting; this is not a closed-loop cursor experiment.
 
-## Development sanity control
+## Original pilot sanity control
 
 The default frozen decoder uses ridge `alpha=1` and 10 bins of history. Its source-label control circularly shifts the concatenated source velocity labels by half their length before fitting; development labels stay unchanged.
 
@@ -144,7 +173,7 @@ The executable experiment does not host or call an LLM. Raw recordings stay out 
 
 ## Data and attribution
 
-The six selected files total **635,651,025 bytes**. Downloads must match the sizes and MD5 digests in `protocol.json`.
+The original pilot's six selected files total **635,651,025 bytes**. Downloads must match the sizes and MD5 digests in `protocol.json`; the supervised study has its own [recording manifest](studies/calib15/protocol.json).
 
 O'Doherty, J. E., Cardoso, M. M. B., Makin, J. G., and Sabes, P. N. *Nonhuman Primate Reaching with Multichannel Sensorimotor Cortex Electrophysiology*, version 2 (2020). [Dataset and license](https://zenodo.org/records/3854034), DOI [10.5281/zenodo.3854034](https://doi.org/10.5281/zenodo.3854034).
 
@@ -154,4 +183,8 @@ The data and published derived scientific results are **CC BY 4.0**. This reposi
 
 [FALCON](https://proceedings.neurips.cc/paper_files/paper/2024/hash/8c2e6bb15be1894b8fb4e0f9bcad1739-Abstract-Datasets_and_Benchmarks_Track.html) already studies consistent few-shot neural decoding. [NoMAD](https://www.nature.com/articles/s41467-025-59652-y) and [PRI-T](https://www.nature.com/articles/s41551-025-01536-z) provide substantially broader evidence for unsupervised stabilization and recalibration. This repository asks a narrower budget-controlled question; it does not establish superiority over those methods.
 
-Only two final-test days from one animal are included. Report day-level results, negative transfer, measured compute costs, and failed hypotheses. Do not infer population-level significance from autocorrelated 20 ms bins.
+The pilot's published final results cover only two days from one animal; the
+later supervised studies have not accessed their final recordings. Report
+day-level results, negative transfer, measured compute costs, and failed
+hypotheses. Do not infer population-level significance from autocorrelated 20 ms
+bins or repeatedly reused development dates.
