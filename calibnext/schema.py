@@ -1,8 +1,8 @@
 """Validated configurations and evidence for explicitly cumulative follow-up batches."""
 
-from typing import Final, Literal, Self, assert_never
+from typing import Final, Literal, NotRequired, Self, TypedDict, assert_never
 
-from pydantic import Field, model_validator
+from pydantic import Field, model_serializer, model_validator
 
 from calib15.records import Trial as ParentTrial
 from calib15.records import mean_r2, negative_days
@@ -16,6 +16,18 @@ PARITY_TOLERANCE: Final = 1e-7
 PREVIOUS_CONTINUATION_ATTEMPTS: Final = 8
 
 
+class ConfigPayload(TypedDict):
+    """The six historical fields with an optional custom method identity."""
+
+    mode: Literal["map", "pls", "encoding", "custom"]
+    alpha: float
+    strength: float
+    components: int
+    geometry: Literal["identity", "source"]
+    bias_penalty: float
+    method: NotRequired[str]
+
+
 class Config(Record):
     """Canonical search surface with mode-specific prior penalties.
 
@@ -23,32 +35,54 @@ class Config(Record):
     with alpha and its intercept with bias_penalty.
     """
 
-    mode: Literal["map", "pls", "encoding"] = "map"
+    mode: Literal["map", "pls", "encoding", "custom"] = "map"
     alpha: float = Field(default=10.0, gt=0)
     strength: float = Field(default=1.0, gt=0, le=1)
     components: int = Field(default=8, ge=1, le=32)
     geometry: Literal["identity", "source"] = "identity"
     bias_penalty: float = Field(default=1.0, ge=0)
+    method: str = Field(default="", pattern=r"^(?:[a-z][a-z0-9_]{0,47})?$")
 
     @model_validator(mode="after")
     def active_parameters(self) -> Self:
         """Reject fake novelty produced by changing parameters a method ignores."""
         match self.mode:
             case "map":
-                valid = self.components == MAP_COMPONENTS
+                valid = self.components == MAP_COMPONENTS and not self.method
             case "pls":
-                valid = self.geometry == "identity" and self.bias_penalty == 0
+                valid = self.geometry == "identity" and self.bias_penalty == 0 and not self.method
             case "encoding":
-                valid = self.components == MAP_COMPONENTS and self.geometry == "identity"
+                valid = (
+                    self.components == MAP_COMPONENTS
+                    and self.geometry == "identity"
+                    and not self.method
+                )
+            case "custom":
+                valid = bool(self.method)
             case unreachable:
                 assert_never(unreachable)
         if not valid:
             message = (
                 "map/encoding require components=8; encoding/pls require identity geometry; "
-                "pls requires bias_penalty=0"
+                "pls requires bias_penalty=0; only custom requires a nonempty method"
             )
             raise ValueError(message)
         return self
+
+    @model_serializer(mode="plain")
+    def canonical_payload(self) -> ConfigPayload:
+        """Preserve historical JSON; Config-level field selectors are not supported."""
+        payload: ConfigPayload = {
+            "mode": self.mode,
+            "alpha": self.alpha,
+            "strength": self.strength,
+            "components": self.components,
+            "geometry": self.geometry,
+            "bias_penalty": self.bias_penalty,
+        }
+        if self.method:
+            payload["method"] = self.method
+        return payload
 
 
 class Batch(Record):
@@ -173,6 +207,9 @@ def check_parity(sanity: Sanity, inherited: Inheritance) -> None:
     if (
         not sanity.matches_original
         or sanity.parent_trial_id != inherited.baseline.trial_id
+        or len(sanity.rows) != len(inherited.baseline.rows)
+        or {(row.animal, row.session, row.budget_seconds) for row in sanity.rows}
+        != {(row.animal, row.session, row.budget_seconds) for row in inherited.baseline.rows}
         or abs(mean_r2(sanity.rows) - mean_r2(inherited.baseline.rows)) > PARITY_TOLERANCE
         or negative_days(sanity.rows) != negative_days(inherited.baseline.rows)
     ):
@@ -181,14 +218,18 @@ def check_parity(sanity: Sanity, inherited: Inheritance) -> None:
 
 
 def previous_attempts(
-    events: tuple[Trial, ...], decision: Decision, sanity: Sanity, inherited: Inheritance
+    events: tuple[Trial, ...],
+    decision: Decision,
+    sanity: Sanity,
+    inherited: Inheritance,
+    *,
+    expected_count: int = PREVIOUS_CONTINUATION_ATTEMPTS,
 ) -> int:
-    """Retain the eight completed failed MAP attempts without rebinding their old code."""
+    """Validate each failed continuation against its preceding exposure count."""
     completed = tuple({event.trial_id: event for event in events}.values())
     cells = {(row.animal, row.session, row.budget_seconds) for row in inherited.baseline.rows}
-    if len(completed) != PREVIOUS_CONTINUATION_ATTEMPTS or any(
-        event.config.mode != "map"
-        or event.features != inherited.features
+    if len(completed) != expected_count or any(
+        event.features != inherited.features
         or event.status not in {"keep", "discard"}
         or event.score is None
         or len(event.rows) != len(cells)
@@ -196,7 +237,7 @@ def previous_attempts(
         or abs(event.score - mean_r2(event.rows)) > EPSILON
         for event in completed
     ):
-        message = "Archive must retain exactly eight complete MAP attempts"
+        message = f"Archive must retain exactly {expected_count} complete attempts"
         raise ResearchError(message)
     check_parity(sanity, inherited)
     if decision.passed or decision != decide(events, inherited):

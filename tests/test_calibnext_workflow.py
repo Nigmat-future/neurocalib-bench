@@ -180,7 +180,7 @@ class CalibNextTests(unittest.TestCase):
         # Given: an explicitly archived continuation with only seven completed trials.
         archive = self.archive(7)
         # When/Then: neither partial counts nor absent evidence can hide exposure.
-        with self.assertRaisesRegex(RuntimeError, "eight"):
+        with self.assertRaisesRegex(RuntimeError, "8 complete"):
             read_inheritance(self.root)
         (archive / "protocol.json").unlink()
         with self.assertRaisesRegex(RuntimeError, "complete"):

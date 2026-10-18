@@ -1,0 +1,14 @@
+{
+  "commit": "443a0602886496888077907ae3ea5f4acf81f9d1",
+  "fresh_git_checkout": true,
+  "checkout": ".tools/calibnext-linear-verify",
+  "reused_locked_environment": true,
+  "data_access": "junction to checksum-verified existing data/raw",
+  "trials": 30,
+  "daily_rows": 270,
+  "matches_original": true,
+  "relative_absolute_tolerance": 1e-07,
+  "holdout_accessed": false,
+  "verified_at": "2026-10-18T19:25:52.129744+00:00",
+  "code_ci": "https://github.com/Nigmat-future/neurocalib-bench/actions/runs/39157338948"
+}

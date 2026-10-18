@@ -133,6 +133,9 @@ def adapt(
     z = (prefix_x - model.center) / model.scale
     residual = prefix_y - model.predict(prefix_x)
     match config.mode:
+        case "custom":
+            message = "Custom methods require the gated evaluator and their bound script"
+            raise ResearchError(message)
         case "encoding":
             if prepared.encoding is None:
                 message = "encoding calibration requires source velocity second moments"

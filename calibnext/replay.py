@@ -49,7 +49,8 @@ def reproduce_development(root: Path) -> Path:
         _ = read_inheritance(root)
         ledger_hash = file_digest(results / "experiments.jsonl")
         events = read_events(root)
-        inputs, runtime = fingerprints(root), environment()
+        configs = tuple(event.config for event in events)
+        inputs, runtime = fingerprints(root, configs), environment()
         if file_digest(results / "experiments.jsonl") != ledger_hash:
             message = "Development ledger changed while reading the replay snapshot"
             raise ResearchError(message)
@@ -59,10 +60,10 @@ def reproduce_development(root: Path) -> Path:
             message = "No completed continued-development trials to reproduce"
             raise ResearchError(message)
         if any(
-            event.inputs != inputs
+            event.inputs != fingerprints(root, (event.config,))
             or event.batch_sha256 != file_digest(batch_path(root, event.batch_id))
             or any(event.environment[key] != runtime[key] for key in ("numpy", "h5py", "pydantic"))
-            for event in complete
+            for event in events
         ):
             message = "Reproduction inputs, manifest or scientific dependencies changed"
             raise ResearchError(message)
@@ -79,7 +80,8 @@ def reproduce_development(root: Path) -> Path:
             )
         output = results / "reproduced" / "development.json"
         if (
-            fingerprints(root) != inputs
+            fingerprints(root, configs) != inputs
+            or any(event.inputs != fingerprints(root, (event.config,)) for event in events)
             or file_digest(results / "experiments.jsonl") != ledger_hash
             or any(
                 file_digest(batch_path(root, name)) != checksum

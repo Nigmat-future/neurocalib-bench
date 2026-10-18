@@ -1,8 +1,10 @@
 {
-  "version": "calibnext-v2",
-  "previous_continuation": "studies/calibnext-map-initial",
-  "previous_continuation_commit": "b7d3015",
-  "previous_continuation_attempts": 8,
+  "version": "calibnext-v3",
+  "previous_continuations": [
+    {"path": "studies/calibnext-map-initial", "commit": "b7d301513a5ff15ff71ec4451838164208fcd87d", "attempts": 8},
+    {"path": "studies/calibnext-linear-encoding", "commit": "443a0602886496888077907ae3ea5f4acf81f9d1", "attempts": 30}
+  ],
+  "previous_continuation_attempts": 38,
   "posthoc_diagnostic_configurations": 2,
   "parent_study": "studies/calib15/protocol.json",
   "features": "studies/calib15/results/features.json",
@@ -15,6 +17,9 @@
   "baseline_negative_days": 1,
   "gate_delta": 0.02,
   "source_precision_diagonal": 0.1,
+  "custom_method_contract": "one immutable methods/<name>.py; source Prepared and current labeled prefix in; finite Decoder out",
+  "custom_dependencies": ["stdlib", "numpy", "bound core"],
+  "unused_new_methods_do_not_change_previous_inputs": true,
   "stop_on_first_passing_candidate": true,
   "holdout_access_requires_frozen_passing_gate": true,
   "final_budgets_seconds": [0, 5, 15, 30],

@@ -17,6 +17,7 @@ from calib15.records import read_features
 from calib15.schema import Calibration, Features, Recording, Row
 from calibnext.data import iter_design, source_statistics
 from calibnext.models import Prepared, adapt, prepare_moments
+from calibnext.plugins import Calibrator, calibrate, load_method, protect
 from calibnext.schema import Config
 from neurocalib.core import Design, metrics
 from neurocalib.data import load_session
@@ -66,6 +67,7 @@ def _prepare_animal(
         features.source_alpha,
         yy=stats.yy,
     )
+    protect(prepared)
     return prepared, channels
 
 
@@ -98,6 +100,7 @@ def _score_day(  # noqa: PLR0913, PLR0917
     config: Config | Calibration,
     budgets: tuple[int, ...],
     features: Features,
+    adapter: Calibrator | None = None,
 ) -> tuple[Row, ...]:
     prefix = _prefix(session, channels, features, max(budgets), 0.02)
     models: list[Decoder] = []
@@ -109,7 +112,7 @@ def _score_day(  # noqa: PLR0913, PLR0917
         start = perf_counter()
         match config:
             case Config():
-                model = adapt(prepared, x, y, config)
+                model = calibrate(adapt if adapter is None else adapter, prepared, x, y, config)
             case Calibration():
                 old = OldPrepared(
                     prepared.model,
@@ -221,6 +224,13 @@ def _evaluate(
         message = "Development uses exactly 15 seconds; final uses the four frozen budgets"
         raise ResearchError(message)
     study, features = read_study(root), read_features(root)
+    match config:
+        case Config():
+            adapter = load_method(root, config)
+        case Calibration():
+            adapter = adapt
+        case unreachable:
+            assert_never(unreachable)
     targets = tuple(item for item in study.files if item.role == phase)
     rows: list[Row] = []
     for animal in sorted({item.animal for item in targets}):
@@ -233,6 +243,8 @@ def _evaluate(
             if spec.animal == animal:
                 session = load_session(recording_path(root, spec), study.bin_seconds)
                 rows.extend(
-                    _score_day(spec, session, channels, prepared, config, budgets, features)
+                    _score_day(
+                        spec, session, channels, prepared, config, budgets, features, adapter
+                    )
                 )
     return tuple(rows)

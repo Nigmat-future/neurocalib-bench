@@ -16,3 +16,9 @@ If no candidate passes, diagnose that batch and continue with another declared
 batch under the same threshold and access restrictions. Never drop recordings,
 extend calibration time, pool labels across development days, or tune on final
 results to manufacture success.
+
+New candidate mechanisms belong in immutable single-file methods. Bind each
+trial to its selected method and the fixed core. Add methods without editing
+previous method files, source loaders, scoring, or historical evidence. Freeze
+all used methods at the first passing gate. The archived 38 continuation
+attempts and original 32 configurations remain visible in cumulative counts.

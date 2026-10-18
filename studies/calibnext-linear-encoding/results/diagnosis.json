@@ -1,0 +1,499 @@
+{
+  "exploratory_only": true,
+  "recordings_opened": [
+    "indy_20160930_05.mat",
+    "indy_20161005_06.mat",
+    "indy_20161011_03.mat",
+    "indy_20161014_04.mat",
+    "indy_20161017_02.mat",
+    "indy_20161024_03.mat",
+    "indy_20161025_04.mat",
+    "indy_20161026_03.mat",
+    "indy_20161027_03.mat",
+    "indy_20161206_02.mat",
+    "indy_20161207_02.mat"
+  ],
+  "ledger_sha256": "3d3cdeb03beb2982ce83c9a43f46f0c2620f47ef6f0a43b92f31165861c609fe",
+  "bound_inputs": {
+    "calib15/__init__.py": "957a01ddee14a4f8238f8d90109d00f2ca86b3d8750062e1d62995ffbf594ba6",
+    "calib15/__main__.py": "096b6c0d66b5bea7347475497636a7dabedbc53f40428de65c32404eee66f07b",
+    "calib15/cli.py": "f57744afbe22fd36f13b51004970f457cc71ec29d253df253e92cd451eaa9f93",
+    "calib15/evaluation.py": "90098b63b435ba475c47432b98b726211d52af487e37fa61dcebec6163b373cf",
+    "calib15/features.py": "1544efb11dffbbbda082a102b2e468d009050057bc71e8979dafbb94d4325e8a",
+    "calib15/io.py": "edff15bfd93fd438f86c6c7822f79e93da9a2a2442179d9d422a2c9a102b3e6c",
+    "calib15/models.py": "f213ab3f6e61e5e6285f6a4988cb383cfcb2c13d7be375a80204e08f441a0fc4",
+    "calib15/records.py": "abc170e9c57652cef8df949cf8f91717534ae1399f52a20c1b72366cd16f7071",
+    "calib15/replay.py": "63ea7e28ef5f08eb04351d01d33bdab000419870c6a9dd564dbae68aa45b9e10",
+    "calib15/report.py": "b65fb40a7862ba6c6d483560533a0e786abe33bf1602379af143c5c88bb5b0e2",
+    "calib15/research.py": "667291622d139469be416105e9f8a32ca2a2e5370d8aea8b6888084d5b5ac440",
+    "calib15/schema.py": "e7c2c41d69921c0ea3dfc315c20cc694f9c40602d50ca575be8c851941fd2894",
+    "calib15/seal.py": "c79fcbf470eaa625a3a0ef9d48d343b4907f254d64f6a6556119461170828676",
+    "neurocalib/__init__.py": "49b26aee28c4d01a1794fadab0bfcfd6cf9ab3ae80cd13744b3d5979400a4c96",
+    "neurocalib/__main__.py": "0f3a40944347d5b010f5c8bfbcf408de4a41170206333ca0482acf6a2edd04cc",
+    "neurocalib/cli.py": "ce2e00979ea618792549e9695bea350d4632660e3cb9dc2194d3e72e406f7f83",
+    "neurocalib/core.py": "f8eca66ebf4721e7c35dd2032de90e05642d0da2294def3da79fa10a5f2931dc",
+    "neurocalib/data.py": "99a6ef85a3889a14d9a37109dc5cea223205ee05bf1b9571edf4dd48400bafc7",
+    "neurocalib/evaluation.py": "b30746d7176b3f4034e5413e9c90c83a65d37d8e60e40c8a93c6d93187e74314",
+    "neurocalib/ledger.py": "cdde61a17b9e89f7ce49b21e12778c483fb64cca2bd3c4a8f200c8fc3da4a600",
+    "neurocalib/report.py": "a6dbc5c405a21771518c96846200556ab2810e4891bc9786c393e6ab2474fc77",
+    "neurocalib/reproduce.py": "d263f4b4e75f12507752f5dc9c0a10fd6189210356224a375335108db34d8a0a",
+    "neurocalib/research.py": "8993617157f8e414dc6a2ee1fca70974b262578ba43445329d23113d6050bf0f",
+    "neurocalib/schema.py": "c798757bca1d14d379a985ee1398ca30bf1f031b3d1f4e1e29134931e86d50bd",
+    "pyproject.toml": "c93faf564be76e68c342aed2f51ee1358cbf12e899486163f01aef95caeb896d",
+    "studies/calib15/program.md": "367953798654abfc1fd5bf6af785d2fc72153a61bd091b6e3c3bda639c0f9468",
+    "studies/calib15/protocol.json": "70eabe7ad358dc5e938353ed3359288d794fdb3da99507c6a7defac6eff4910d",
+    "studies/calib15/PROTOCOL.md": "5d50a58f0f05f094e7b6ada17151ce8c7ea9c9614470b3662b50a2a4a9cbcd20",
+    "studies/calib15/results/features.json": "9286968097d6a5068528eab864a7c3d0c3d0e1201545bfacc90a15970f51c043",
+    "studies/calib15/results/source_tuning.json": "3cd933a2bd7564a9d28b679ebed840a91fa135e406ea1886aef952e00b8df4b7",
+    "uv.lock": "a807f0b72046e99880999bf2647796c1043bac348235cd3bd5d10b88aa338a5f"
+  },
+  "bound_inputs_unchanged": true,
+  "source": {
+    "bins": 38982,
+    "features": 960,
+    "channels": 96,
+    "pca32_neural_variance_fraction": 0.5237208278018685,
+    "pca32_decoder_weight_fraction": 0.864554861115213,
+    "pca32_centered_prediction_energy_fraction": 0.9723400602357055
+  },
+  "days": [
+    {
+      "session": "indy_20161011_03.mat",
+      "prefix_neural": {
+        "n": 741,
+        "numerical_rank": 740,
+        "participation_rank": 11.583544696823306,
+        "entropy_rank": 53.352224730794745,
+        "lag1": 0.8229691255545984,
+        "initial_positive_iat_max_2s": 31.51770942391969,
+        "heuristic_effective_n": 23.510591776623016
+      },
+      "prefix_velocity": {
+        "n": 741,
+        "numerical_rank": 2,
+        "participation_rank": 1.3786727456809957,
+        "entropy_rank": 1.5632969109530213,
+        "lag1": 0.9792092164657835,
+        "initial_positive_iat_max_2s": 20.429225491039855,
+        "heuristic_effective_n": 36.271565964407145
+      },
+      "source_metric_full_correction_capture": {
+        "pca32": 0.8190164487571008,
+        "affine2": 0.21891867502492032
+      },
+      "r2": {
+        "residual": 0.39217768223080235,
+        "affine": 0.36553370669844737,
+        "subspace": 0.3844527909422111,
+        "frozen": 0.3790090098579002,
+        "intercept_only": 0.3957827012229058,
+        "slope_only": 0.3742317406240778
+      },
+      "prefix_residual_mean": [
+        2.600094596476731,
+        -13.064126691108433
+      ],
+      "scoring_residual_mean": [
+        -1.3335530551027444,
+        -13.362967163547562
+      ],
+      "mean_residual_cosine": 0.9565331641893101,
+      "score_bins": 32164
+    },
+    {
+      "session": "indy_20161014_04.mat",
+      "prefix_neural": {
+        "n": 741,
+        "numerical_rank": 740,
+        "participation_rank": 8.41403917163031,
+        "entropy_rank": 41.59942000679178,
+        "lag1": 0.8350262931344592,
+        "initial_positive_iat_max_2s": 16.260460106126292,
+        "heuristic_effective_n": 45.57066621508581
+      },
+      "prefix_velocity": {
+        "n": 741,
+        "numerical_rank": 2,
+        "participation_rank": 1.5830266759123715,
+        "entropy_rank": 1.7418570066872472,
+        "lag1": 0.9763256118846272,
+        "initial_positive_iat_max_2s": 19.48604751577868,
+        "heuristic_effective_n": 38.02720892474376
+      },
+      "source_metric_full_correction_capture": {
+        "pca32": 0.8166367217210906,
+        "affine2": 0.16299303521085748
+      },
+      "r2": {
+        "residual": 0.43345304240796173,
+        "affine": 0.41841658107165336,
+        "subspace": 0.4286868842636661,
+        "frozen": 0.3515111867488486,
+        "intercept_only": 0.406298851209106,
+        "slope_only": 0.37088004319703466
+      },
+      "prefix_residual_mean": [
+        26.238482470753706,
+        15.639571512647708
+      ],
+      "scoring_residual_mean": [
+        21.35389245506654,
+        13.129432051697467
+      ],
+      "mean_residual_cosine": 0.9999054247127696,
+      "score_bins": 24427
+    },
+    {
+      "session": "indy_20161017_02.mat",
+      "prefix_neural": {
+        "n": 741,
+        "numerical_rank": 740,
+        "participation_rank": 13.685179039679364,
+        "entropy_rank": 67.4768516791981,
+        "lag1": 0.8218708639634474,
+        "initial_positive_iat_max_2s": 12.309756011962477,
+        "heuristic_effective_n": 60.19615655094259
+      },
+      "prefix_velocity": {
+        "n": 741,
+        "numerical_rank": 2,
+        "participation_rank": 1.5298936365615272,
+        "entropy_rank": 1.6997369876569297,
+        "lag1": 0.9764218246390093,
+        "initial_positive_iat_max_2s": 14.677920938287322,
+        "heuristic_effective_n": 50.483989055091804
+      },
+      "source_metric_full_correction_capture": {
+        "pca32": 0.5994612792623413,
+        "affine2": 0.1536212483600827
+      },
+      "r2": {
+        "residual": 0.3555626201176555,
+        "affine": 0.34597749492723473,
+        "subspace": 0.3413720900850929,
+        "frozen": 0.16528458451848665,
+        "intercept_only": 0.31671180811483257,
+        "slope_only": 0.19068842831844557
+      },
+      "prefix_residual_mean": [
+        36.56127978878415,
+        52.03043388626859
+      ],
+      "scoring_residual_mean": [
+        28.04179804350997,
+        39.064820606472445
+      ],
+      "mean_residual_cosine": 0.9999493836871878,
+      "score_bins": 23267
+    },
+    {
+      "session": "indy_20161024_03.mat",
+      "prefix_neural": {
+        "n": 741,
+        "numerical_rank": 740,
+        "participation_rank": 9.488819054835053,
+        "entropy_rank": 55.057341944461676,
+        "lag1": 0.8379815404078789,
+        "initial_positive_iat_max_2s": 23.706022210778247,
+        "heuristic_effective_n": 31.257880103693434
+      },
+      "prefix_velocity": {
+        "n": 741,
+        "numerical_rank": 2,
+        "participation_rank": 1.955706020645122,
+        "entropy_rank": 1.9773938654263452,
+        "lag1": 0.9780339174370272,
+        "initial_positive_iat_max_2s": 15.44594843507862,
+        "heuristic_effective_n": 47.97374554981339
+      },
+      "source_metric_full_correction_capture": {
+        "pca32": 0.716634515092754,
+        "affine2": 0.19490955267327115
+      },
+      "r2": {
+        "residual": 0.3349349769578542,
+        "affine": 0.3429043038224209,
+        "subspace": 0.34396917008426786,
+        "frozen": 0.24592039875416855,
+        "intercept_only": 0.2977702088769939,
+        "slope_only": 0.25755254094394997
+      },
+      "prefix_residual_mean": [
+        -43.61785142128671,
+        8.376401163726012
+      ],
+      "scoring_residual_mean": [
+        -29.590496743994034,
+        1.6646440567442262
+      ],
+      "mean_residual_cosine": 0.9910975801332799,
+      "score_bins": 22093
+    },
+    {
+      "session": "indy_20161025_04.mat",
+      "prefix_neural": {
+        "n": 741,
+        "numerical_rank": 740,
+        "participation_rank": 6.9166245333868455,
+        "entropy_rank": 35.92032382653312,
+        "lag1": 0.8307540159164155,
+        "initial_positive_iat_max_2s": 26.100925224745144,
+        "heuristic_effective_n": 28.38979820138676
+      },
+      "prefix_velocity": {
+        "n": 741,
+        "numerical_rank": 2,
+        "participation_rank": 1.8414163887510975,
+        "entropy_rank": 1.9144809937792158,
+        "lag1": 0.9796923403722564,
+        "initial_positive_iat_max_2s": 14.730990314670972,
+        "heuristic_effective_n": 50.302117113064625
+      },
+      "source_metric_full_correction_capture": {
+        "pca32": 0.8525996809389151,
+        "affine2": 0.3021107725558449
+      },
+      "r2": {
+        "residual": 0.44122140046733205,
+        "affine": 0.40323114866632503,
+        "subspace": 0.40668995039421285,
+        "frozen": 0.34205235672010215,
+        "intercept_only": 0.3555563534272444,
+        "slope_only": 0.420739237688158
+      },
+      "prefix_residual_mean": [
+        13.972375265036339,
+        15.296979650614025
+      ],
+      "scoring_residual_mean": [
+        12.247628057764146,
+        8.143686230106361
+      ],
+      "mean_residual_cosine": 0.9704202208524975,
+      "score_bins": 23678
+    },
+    {
+      "session": "indy_20161026_03.mat",
+      "prefix_neural": {
+        "n": 741,
+        "numerical_rank": 740,
+        "participation_rank": 21.044631117700664,
+        "entropy_rank": 89.65868307656649,
+        "lag1": 0.8130376994870382,
+        "initial_positive_iat_max_2s": 17.14744939671389,
+        "heuristic_effective_n": 43.21342392426037
+      },
+      "prefix_velocity": {
+        "n": 741,
+        "numerical_rank": 2,
+        "participation_rank": 1.3402278683834739,
+        "entropy_rank": 1.523931435584384,
+        "lag1": 0.9772661938368509,
+        "initial_positive_iat_max_2s": 16.88425917455643,
+        "heuristic_effective_n": 43.88703065614171
+      },
+      "source_metric_full_correction_capture": {
+        "pca32": 0.7745574590933078,
+        "affine2": 0.1579980757932757
+      },
+      "r2": {
+        "residual": 0.36313851475715414,
+        "affine": 0.3672183299919739,
+        "subspace": 0.3631907623695578,
+        "frozen": 0.2527492414856769,
+        "intercept_only": 0.3462537262439986,
+        "slope_only": 0.2472756277016881
+      },
+      "prefix_residual_mean": [
+        -21.98410557282985,
+        39.45789906776833
+      ],
+      "scoring_residual_mean": [
+        -12.951293886431348,
+        34.21326696111062
+      ],
+      "mean_residual_cosine": 0.9892963873362528,
+      "score_bins": 23348
+    },
+    {
+      "session": "indy_20161027_03.mat",
+      "prefix_neural": {
+        "n": 741,
+        "numerical_rank": 740,
+        "participation_rank": 10.99612605111198,
+        "entropy_rank": 46.4502502305074,
+        "lag1": 0.8375241197396339,
+        "initial_positive_iat_max_2s": 38.417516683442415,
+        "heuristic_effective_n": 19.28807648099139
+      },
+      "prefix_velocity": {
+        "n": 741,
+        "numerical_rank": 2,
+        "participation_rank": 1.0000002955987644,
+        "entropy_rank": 1.0000024723035676,
+        "lag1": 0.9601821862138711,
+        "initial_positive_iat_max_2s": 9.347967904527557,
+        "heuristic_effective_n": 79.26856484403493
+      },
+      "source_metric_full_correction_capture": {
+        "pca32": 0.882453926183624,
+        "affine2": 0.019353255068023476
+      },
+      "r2": {
+        "residual": 0.20550845240834936,
+        "affine": 0.18069306697832588,
+        "subspace": 0.23545934168327964,
+        "frozen": 0.3163220354870595,
+        "intercept_only": 0.296523035425802,
+        "slope_only": 0.23169228756559107
+      },
+      "prefix_residual_mean": [
+        -11.269802069293068,
+        -2.9773735641388686
+      ],
+      "scoring_residual_mean": [
+        12.666700802366195,
+        13.414553650533811
+      ],
+      "mean_residual_cosine": -0.8494917183741862,
+      "score_bins": 27422
+    },
+    {
+      "session": "indy_20161206_02.mat",
+      "prefix_neural": {
+        "n": 741,
+        "numerical_rank": 740,
+        "participation_rank": 3.784046661018606,
+        "entropy_rank": 18.088626438843256,
+        "lag1": 0.8694313737234916,
+        "initial_positive_iat_max_2s": 42.43668656476411,
+        "heuristic_effective_n": 17.46130671321697
+      },
+      "prefix_velocity": {
+        "n": 741,
+        "numerical_rank": 2,
+        "participation_rank": 1.8292495682722945,
+        "entropy_rank": 1.9073603439388305,
+        "lag1": 0.9716324030285125,
+        "initial_positive_iat_max_2s": 14.369733082796692,
+        "heuristic_effective_n": 51.56671983609203
+      },
+      "source_metric_full_correction_capture": {
+        "pca32": 0.603910964655126,
+        "affine2": 0.09227773782038391
+      },
+      "r2": {
+        "residual": 0.24471119859010493,
+        "affine": 0.21773069043992693,
+        "subspace": 0.23075938065910861,
+        "frozen": 0.184752694207293,
+        "intercept_only": 0.21875255646093145,
+        "slope_only": 0.20986721863225072
+      },
+      "prefix_residual_mean": [
+        14.513171875417997,
+        -10.281325145508202
+      ],
+      "scoring_residual_mean": [
+        12.184152518395106,
+        -20.585480738809558
+      ],
+      "mean_residual_cosine": 0.9130816345424497,
+      "score_bins": 35371
+    },
+    {
+      "session": "indy_20161207_02.mat",
+      "prefix_neural": {
+        "n": 741,
+        "numerical_rank": 740,
+        "participation_rank": 14.515825454769002,
+        "entropy_rank": 63.497810339730925,
+        "lag1": 0.8303538693896906,
+        "initial_positive_iat_max_2s": 14.654036135724823,
+        "heuristic_effective_n": 50.56627356019198
+      },
+      "prefix_velocity": {
+        "n": 741,
+        "numerical_rank": 2,
+        "participation_rank": 1.5475627163670571,
+        "entropy_rank": 1.7140415650613288,
+        "lag1": 0.9810054900177619,
+        "initial_positive_iat_max_2s": 15.159263327666633,
+        "heuristic_effective_n": 48.88100325083919
+      },
+      "source_metric_full_correction_capture": {
+        "pca32": 0.9180447222933847,
+        "affine2": 0.10117138964547048
+      },
+      "r2": {
+        "residual": 0.38027726867408584,
+        "affine": 0.3640027844889196,
+        "subspace": 0.34553772102458596,
+        "frozen": 0.31059854395032976,
+        "intercept_only": 0.32689541042070114,
+        "slope_only": 0.3637042368521606
+      },
+      "prefix_residual_mean": [
+        -23.812935724371545,
+        18.015269665031944
+      ],
+      "scoring_residual_mean": [
+        -9.914569391388167,
+        11.430651418184452
+      ],
+      "mean_residual_cosine": 0.9783141841952434,
+      "score_bins": 20729
+    }
+  ],
+  "configs": {
+    "residual": {
+      "mode": "residual",
+      "alpha": 10.0,
+      "strength": 0.5,
+      "components": 8
+    },
+    "affine": {
+      "mode": "affine",
+      "alpha": 1.0,
+      "strength": 0.5,
+      "components": 8
+    },
+    "subspace": {
+      "mode": "subspace",
+      "alpha": 1.0,
+      "strength": 0.5,
+      "components": 32
+    }
+  },
+  "development_exposures": {
+    "observed_source_days": 2,
+    "observed_development_days": 9,
+    "existing_config_replay_count": 3,
+    "frozen_reference_count": 1,
+    "new_posthoc_config_count": 2,
+    "new_posthoc_config_day_evaluations": 18,
+    "first_execution": ".tools/diagnose_calib15.py; this script replays the same choices",
+    "prefix_seconds": 15,
+    "score_start_seconds": 30.5,
+    "posthoc_configs": [
+      {
+        "name": "intercept_only",
+        "strength": 0.5,
+        "formula": "source_prediction + strength * mean(prefix_y-source_prediction)"
+      },
+      {
+        "name": "slope_only",
+        "strength": 0.5,
+        "formula": "full_residual_prediction - strength * mean(prefix_y-source_prediction)"
+      }
+    ],
+    "new_preregistered_trials": 0,
+    "development_behavior_reused": true
+  },
+  "notes": [
+    "All diagnostics use observed development labels; no final or Loco recording opened.",
+    "IAT uses initial positive adjacent autocorrelation pairs, capped at 2 s; nonstationarity prevents inferential effective-n claims.",
+    "Intercept/slope-only ablations are post-hoc diagnostics, not preregistered trials.",
+    "Correction capture uses the source-covariance inner product; source prediction energy is centered and excludes intercept."
+  ]
+}

@@ -1,18 +1,13 @@
 """Immutable ancestry, finite manifest access, and durable cumulative trial records."""
 
-import math
 import os
 from pathlib import Path
-from typing import Final, assert_never
 
-from calib15.records import Gate as ParentGate
-from calib15.records import mean_r2, negative_days, validate_rows
-from calib15.records import read_events as read_parent_events
-from calib15.schema import Calibration, Features
+from calib15.records import validate_rows
+from calibnext.ancestry import archive_files, archived_events, read_inheritance, read_log
 from calibnext.schema import (
-    EPSILON,
     Batch,
-    Decision,
+    Config,
     Frozen,
     Inheritance,
     Sanity,
@@ -20,14 +15,25 @@ from calibnext.schema import (
     check_parity,
     decide,
     passes,
-    previous_attempts,
 )
-from neurocalib.ledger import ResearchError, Started, digest, environment, file_digest
+from neurocalib.ledger import ResearchError, Started, environment, file_digest
 
-ANCHOR_SCORE: Final = 0.35010946184569786
-ANCHOR_HARM: Final = 1
-INHERITED_CONFIGURATIONS: Final = 32
-INHERITED_CANDIDATES: Final = 8
+__all__ = [
+    "append_event",
+    "archive_files",
+    "batch_path",
+    "check_history",
+    "check_sanity",
+    "fingerprints",
+    "method_paths",
+    "read_batch",
+    "read_events",
+    "read_frozen",
+    "read_inheritance",
+    "require_final_access",
+    "results_dir",
+    "study_dir",
+]
 
 
 def study_dir(root: Path) -> Path:
@@ -38,22 +44,6 @@ def study_dir(root: Path) -> Path:
 def results_dir(root: Path) -> Path:
     """Return the cumulative follow-up evidence directory."""
     return study_dir(root) / "results"
-
-
-def archive_files(root: Path) -> tuple[Path, ...]:
-    """Bind the explicit historical continuation when its archive is present."""
-    archive = root / "studies" / "calibnext-map-initial"
-    return (
-        (
-            archive / "protocol.json",
-            *(
-                archive / "results" / name
-                for name in ("experiments.jsonl", "decision.json", "sanity.json")
-            ),
-        )
-        if archive.exists()
-        else ()
-    )
 
 
 def batch_path(root: Path, batch_id: str) -> Path:
@@ -75,65 +65,6 @@ def read_batch(root: Path, batch_id: str) -> Batch:
     return batch
 
 
-def read_inheritance(root: Path) -> Inheritance:
-    """Recompute ancestry and the fixed reference from already exposed parent rows."""
-    parent = root / "studies" / "calib15" / "results"
-    ledger = parent / "experiments.jsonl"
-    events = read_parent_events(ledger)
-    decision = ParentGate.model_validate_json((parent / "decision.json").read_bytes())
-    baseline = next(
-        (
-            event
-            for event in events
-            if event.score is not None and event.config == decision.baseline_best
-        ),
-        None,
-    )
-    features = Features.model_validate_json((parent / "features.json").read_bytes())
-    if (
-        baseline is None
-        or decision.target_best is None
-        or decision.baseline_best is None
-        or decision.passed
-        or decision.ledger_sha256 != file_digest(ledger)
-        or len({event.trial_id for event in events}) != INHERITED_CONFIGURATIONS
-        or len({event.trial_id for event in events if event.kind == "candidate"})
-        != INHERITED_CANDIDATES
-    ):
-        message = "Parent evidence must retain the failed 32-configuration, 8-candidate study"
-        raise ResearchError(message)
-    _ = validate_rows(root, baseline.rows, "development", (15,))
-    if (
-        not math.isclose(mean_r2(baseline.rows), ANCHOR_SCORE, abs_tol=EPSILON, rel_tol=0)
-        or baseline.features != features
-        or negative_days(baseline.rows) != ANCHOR_HARM
-        or decision.baseline_negative_days != ANCHOR_HARM
-        or decision.baseline_score != ANCHOR_SCORE
-        or any(file_digest(root / name) != checksum for name, checksum in baseline.inputs.items())
-    ):
-        message = "Inherited baseline score, harm, features or scientific inputs changed"
-        raise ResearchError(message)
-    inherited = Inheritance(
-        baseline=baseline,
-        features=features,
-        parent_ledger_sha256=file_digest(ledger),
-        references=(decision.baseline_best, decision.target_best, Calibration(mode="frozen")),
-    )
-    archived = archive_files(root)
-    if archived:
-        if not all(path.is_file() for path in archived):
-            message = "Continuation archive must retain all four complete evidence files"
-            raise ResearchError(message)
-        count = previous_attempts(
-            read_events(root, archive=True),
-            Decision.model_validate_json(archived[2].read_bytes()),
-            Sanity.model_validate_json(archived[3].read_bytes()),
-            inherited,
-        )
-        inherited = inherited.model_copy(update={"previous_continuation_attempts": count})
-    return inherited
-
-
 def check_sanity(root: Path, inherited: Inheritance) -> None:
     """Require verified pipeline parity before another development label is exposed."""
     sanity = Sanity.model_validate_json((results_dir(root) / "sanity.json").read_bytes())
@@ -141,8 +72,21 @@ def check_sanity(root: Path, inherited: Inheritance) -> None:
     check_parity(sanity, inherited)
 
 
-def fingerprints(root: Path) -> dict[str, str]:
-    """Bind code and ancestry without treating future manifests as old trial inputs."""
+def method_paths(root: Path, configs: tuple[Config, ...]) -> tuple[Path, ...]:
+    """Resolve custom leaf scripts without accepting symlinks outside the method folder."""
+    root = root.resolve()
+    paths = tuple(
+        (root / "methods" / f"{config.method}.py").resolve() for config in configs if config.method
+    )
+    if any(path.parent != root / "methods" for path in paths):
+        message = "A method must be a leaf script inside the repository methods folder"
+        raise ResearchError(message)
+    return paths
+
+
+def fingerprints(root: Path, configs: tuple[Config, ...] = ()) -> dict[str, str]:
+    """Bind fixed core and only selected scripts; unused methods remain appendable."""
+    root = root.resolve()
     paths = [
         path
         for package in ("calibnext", "calib15", "neurocalib")
@@ -158,6 +102,7 @@ def fingerprints(root: Path) -> dict[str, str]:
     )
     paths.append(results_dir(root) / "sanity.json")
     paths.extend(archive_files(root))
+    paths.extend(method_paths(root, configs))
     paths.extend(
         path
         for path in (study_dir(root) / "diagnose.py", results_dir(root) / "diagnosis.json")
@@ -176,48 +121,16 @@ def append_event(path: Path, event: Trial) -> None:
 
 def read_events(root: Path, *, archive: bool = False) -> tuple[Trial, ...]:
     """Replay immutable snapshots, including unsuccessful and crashed hypotheses."""
-    folder = (
-        root / "studies" / "calibnext-map-initial" / "results" if archive else results_dir(root)
-    )
-    path = folder / "experiments.jsonl"
-    if not path.exists():
-        return ()
-    events = tuple(
-        Trial.model_validate_json(line) for line in path.read_text(encoding="utf-8").splitlines()
-    )
-    latest: dict[str, Trial] = {}
-    for sequence, event in enumerate(events, start=1):
-        if event.sequence != sequence or event.trial_id != digest(event.config):
-            message = "Invalid cumulative ledger sequence or candidate checksum"
-            raise ResearchError(message)
-        previous = latest.get(event.trial_id)
-        match event.status:
-            case "running":
-                if previous is not None:
-                    message = "A cumulative configuration cannot start twice"
-                    raise ResearchError(message)
-            case "keep" | "discard" | "crash":
-                mutable = {"sequence", "status", "score", "rows", "error"}
-                if (
-                    previous is None
-                    or previous.status != "running"
-                    or previous.model_dump(exclude=mutable) != event.model_dump(exclude=mutable)
-                ):
-                    message = "Terminal event has no matching immutable start"
-                    raise ResearchError(message)
-            case unreachable:
-                assert_never(unreachable)
-        latest[event.trial_id] = event
-    return events
+    return archived_events(root) if archive else read_log(results_dir(root) / "experiments.jsonl")
 
 
 def check_history(root: Path, events: tuple[Trial, ...]) -> Inheritance:
     """Detect source, manifest or environment edits instead of hiding prior exposure."""
     inherited = read_inheritance(root)
     check_sanity(root, inherited)
-    current, runtime = fingerprints(root), environment()
+    runtime = environment()
     if any(
-        event.inputs != current
+        event.inputs != fingerprints(root, (event.config,))
         or event.environment != runtime
         or event.batch_sha256 != file_digest(batch_path(root, event.batch_id))
         for event in events
@@ -242,7 +155,8 @@ def read_frozen(root: Path) -> Frozen:
     )
     latest = {event.trial_id: event for event in events}
     if (
-        frozen.inputs != fingerprints(root)
+        frozen.inputs != fingerprints(root, tuple(event.config for event in events))
+        or any(event.inputs != fingerprints(root, (event.config,)) for event in events)
         or not frozen.decision.passed
         or frozen.features != inherited.features
         or frozen.baseline != inherited.baseline

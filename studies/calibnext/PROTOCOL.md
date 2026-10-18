@@ -15,6 +15,14 @@ revision fixes evidence-overwrite and replay-integrity guards before continuing
 with PLS and an additional source-anchored encoding mechanism. It does not reset
 or conceal the prior eight attempts, change the baseline, or relax the gate.
 
+The subsequent 18 SIMPLS and 12 encoding configurations also failed. Commit
+`443a0602886496888077907ae3ea5f4acf81f9d1` preserves their exact source and original
+paths; their evidence is now `studies/calibnext-linear-encoding`. Thus the same
+development dates have informed 70 search configurations, including 46 candidates,
+plus two post-hoc diagnostic configurations before this revision. This revision
+continues the same gate, source data, and features with separately hashed candidate
+scripts. It does not relabel any earlier attempt or select on final data.
+
 ## Unchanged contract
 
 The original `studies/calib15/protocol.json` determines every recording, checksum,
@@ -63,6 +71,31 @@ Failures and interrupted configurations are retained and cannot be rerun as new
 successes. A failed batch may be followed by another declared batch; prior
 exposures remain in the cumulative ledger. The first passing candidate ends the
 search immediately, even if later declared configurations might score higher.
+
+## Versioned candidate scripts
+
+Additional methods live in `methods/<safe_name>.py`. Each exposes
+`adapt(prepared, prefix_x, prefix_y, config)` and returns a linear `Decoder`.
+The fixed evaluator alone chooses source days, prefix rows, scoring rows, and
+metrics. Candidates receive source statistics and the allowed labeled prefix;
+source and prefix arrays are read-only. Candidate readouts must have finite
+compatible dimensions and positive feature scales.
+
+Only standard library, NumPy, and the already bound core may be imported. This
+single-file dependency rule is provenance bookkeeping, not a security sandbox;
+research scripts are trusted repository code. A trial binds the core and its own
+method source. Adding an unused method cannot alter earlier inputs. Editing a used
+method or core invalidates the search. New algorithm versions require new files,
+declared configurations, and retained failed evidence. Freezing binds every used
+method, including losers. No helpers outside the bound core may be imported.
+
+The first new hypotheses are shared channel reweighting and task-structured full
+residual regression. Shared reweighting uses one coefficient per physical channel
+across all ten lags and both output axes, plus two intercepts; it is unconstrained
+and must not be described as a pure positive gain correction. It uses a source-only
+global velocity scale. Task-structured regression jointly fits all neural residual
+directions and the two source prediction directions, with neural penalty fixed at
+10 and the task penalty varied. Both still use only the first 15 seconds of labels.
 
 ## Final access and success
 
